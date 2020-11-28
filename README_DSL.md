@@ -11,299 +11,74 @@ Table of contents
 * [Stateless Transformations](#stateless-transformations)
     * [branch: KStream -> KStream[]](#branch)
     * [filter: KStream -> KStream /  KTable -> KTable](#filter-kstream)
-
-
-
-<a name="filter-ktable"/>
-
-### filter: KStream -> KStream /  KTable -> KTable
-                                                                                                                                                                    
---
-<a name="flatmap-kstream"/>
-
-### flatMap: KStream -> KStream
-
---
-<a name="flatmap-ktable"/>
-
-### flatMapValues: KStream -> KStream
-
---
-<a name="foreach"/>
-
-### foreach: KStream -> void / KTable -> void
-
---
-<a name="groupbykey"/>
-
-### groupByKey: KStream -> KGroupedStream
-
---
-<a name="groupby"/>
-
-### groupBy: KStream -> KGroupedStream / KTable -> KGroupedTable
-
---
-<a name="cogroup"/>
-
-### cogroup: KGroupedStream -> CogroupedKStream / CogroupedKStream → CogroupedKStream
-
---
-<a name="map"/>
-
-### map: KStream -> KStream
-
---
-<a name="mapValues"/>
-
-### mapValues: KStream -> KStream / KTable -> KTable
-
---
-<a name="merge"/>
-
-### merge: KStream -> KStream
-
---
-<a name="peek"/>
-
-### peek: KStream -> KStream
-
---
-<a name="print"/>
-
-### print: KStream -> void
-
---
-<a name="repartition"/>
-
-### repartition: KStream -> KStream
-
---
-<a name="selectkey"/>
-
-### selectKey: KStream -> KStream
-
---
-<a name="stream-to-table"/>
-
-## Stream to Table: KStream -> KTable
-
---
-<a name="table-to-stream"/>
-
-## Table to Stream: KTable -> KStream
-
---
-<a name="stateful-transformations"/>
-
-# Stateful transformations
-
---
-<a name="wordcount-example"/>
-
-## WordCount: A stateful application example
-
---
-<a name="stateful-aggregatinb"/>
-
-## Stateful Aggregating operations
-
---
-<a name="aggregate"/>
-
-### aggregate: KGroupedStream -> KTable / CogroupedKStream -> KTable / KGroupedTable -> KTable
-
---
-<a name="windowed-aggregate"/>
-
-### windowedBy (aggregate windowed): 
-    KGroupedStream → TimeWindowedStream; TimeWindowedStream → KTable
---
-<a name="count"/>
-
-### count: KGroupedStream → KTable / KGroupedTable → KTable
-
---
-<a name="windowed-count"/>
-
-### count windowed: 
-
---
-<a name="reduce"/>
-
-### reduce: KGroupedStream → KTable / KGroupedTable → KTable
-
---
-<a name="windowed-reduce"/>
-
-### reduce (windowed):
-
---
-<a name="stateful-joining"/>
-
-## Stateful Joining operations
-
---
-<a name="kstream-kstream-join"/>
-
-## KStream-KStream join
-
---
-<a name="ks-ks-inner-join"/>
-
-### Inner Join: (KStream, KStream) → KStream
-
---
-<a name="ks-ks-leftjoin"/>
-
-### leftJoin: (KStream, KStream) → KStream
-
---
-<a name="ks-ks-outerjoin"/>
-
-### outerJoin: (KStream, KStream) → KStream
-
---
-<a name="kt-kt-join"/>
-
-## KTable-KTable join
-
---
-<a name="kt-kt-innerjoin"/>
-
-### Inner Join: (KTable, KTable) → KTable
-
---
-<a name="kt-kt-leftjoin"/>
-
-### leftJoin: (KTable, KTable) → KTable
-
---
-<a name="ks-kt-join"/>
-
-## KStream-KTable join
-
---
-<a name="ks-kt-innerjoin"/>
-
-### Inner Join: (KStream, KTable) → KStream
-
---
-<a name="ks-kt-leftjoin"/>
-
-### leftJoin: (KStream, KTable) → KStream
-
---
-<a name="ks-gkt-join"/>
-
-## KStream-GlobalKTable Join
-
---
-<a name="ks-gkt-innerjoin"/>
-
-### Inner Join: (KStream, GlobalKTable) → KStream
-
---
-<a name="ks-gkt-leftjoin"/>
-
-### leftJoin: (KStream, GlobalKTable) → KStream
-
---
-<a name="stateful-windowing"/>
-
-## Stateful Windowing operations
-
---
-<a name="custom-time-windows"/>
-
-### Example: custom time window
-
---
-<a name="tumbling-time-windows"/>
-
-### Tumbling time windows
-
---
-<a name="hoping-time-windows"/>
-
-### Hopping time windows
- 
---
-<a name="sliding-time-windows"/>
-
-## Sliding time windows
-
---
-<a name="session-windows"/>
-
-## Session windows
-
---
-<a name="window-final-results"/>
-
-## Window final results
-
---
-<a name="processors-and-transformers"/>
-
-# Applying processors and transformers (Processor API integration)
-
---
-<a name="process"/>
-  
-## process: KStream -> void
-
---
-<a name="transform"/>
-
-## transform: KStream -> KStream
-
---
-<a name="transformValues"/>
-
-## transformValues: KStream -> KStream
-
---
-<a name="record-caches"/>
-
-# Record caches in the DSL
-
---
-<a name="control-ktable-emit-rate"/>
-
-## Controlling KTable emit rate
-
---
-<a name="writing-back-to-kafka"/>
-
-## Writing back streams to Kafka
-
---
-<a name="to"/>
-
-### to: KStream -> void
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    * [filter: KStream -> KStream /  KTable -> KTable](#filter-ktable)
+    * [flatMap: KStream -> KStream](#flatmap-kstream)
+    * [flatMapValues: KStream -> KStream](#flatmap-ktable)
+    * [foreach: KStream -> void / KTable -> void](#foreach)
+    * [groupByKey: KStream -> KGroupedStream](#groupbykey)
+    * [groupBy: KStream -> KGroupedStream / KTable -> KGroupedTable](#groupby)
+    * [cogroup: KGroupedStream -> CogroupedKStream / CogroupedKStream → CogroupedKStream](#cogroup)
+    * [map: KStream -> KStream](#map)
+    * [mapValues: KStream -> KStream / KTable -> KTable](#mapValues)
+    * [merge: KStream -> KStream](#merge)
+    * [peek: KStream -> KStream](#peek)
+    * [print: KStream -> void](#print)
+    * [repartition: KStream -> KStream](#repartition)
+    * [selectKey: KStream -> KStream](#selectkey)
+    * [Stream to Table: KStream -> KTable](#stream-to-table)
+    * [Table to Stream: KTable -> KStream](#table-to-stream)
+
+* [Stateful Transformations](#stateful-transformations)
+
+    * [WordCount: A stateful application example](#wordcount-example)
+
+    * [Stateful Aggregating operations](#stateful-aggregating)
+        * [aggregate: KGroupedStream -> KTable / CogroupedKStream -> KTable / KGroupedTable -> KTable](#aggregate)
+        * [windowedBy (aggregate windowed): 
+               KGroupedStream → TimeWindowedStream; TimeWindowedStream → KTable](#windowed-aggregate)
+        * [count: KGroupedStream → KTable / KGroupedTable → KTable](#count)
+        * [count windowed](#windowed-count)
+        * [reduce: KGroupedStream → KTable / KGroupedTable → KTable](#reduce)
+        * [reduce (windowed):](#windowed-reduce)
+
+    * [Stateful Joining operations](#stateful-joining)
+
+        * [KStream-KStream join](#kstream-kstream-join)
+            * [Inner Join: (KStream, KStream) → KStream](#ks-ks-inner-join)
+            * [leftJoin: (KStream, KStream) → KStream](#ks-ks-leftjoin)
+            * [outerJoin: (KStream, KStream) → KStream](#ks-ks-outerjoin)
+
+        * [KTable-KTable join](#kt-kt-join)
+            * [Inner Join: (KTable, KTable) → KTable](#kt-kt-innerjoin)
+            * [leftJoin: (KTable, KTable) → KTable](#kt-kt-leftjoin)
+
+        * [KStream-KTable join](#ks-kt-join)
+            * [Inner Join: (KStream, KTable) → KStream](#ks-kt-innerjoin)
+            * [leftJoin: (KStream, KTable) → KStream](#ks-kt-leftjoin)
+
+        * [KStream-GlobalKTable Join](#ks-gkt-join)
+            * [Inner Join: (KStream, GlobalKTable) → KStream](#ks-gkt-innerjoin)
+            * [leftJoin: (KStream, GlobalKTable) → KStream](#ks-gkt-leftjoin)
+
+    * [Stateful Windowing operations](#stateful-windowing)
+        * [Example: custom time window](#custom-time-windows)
+        * [Tumbling time windows](#tumbling-time-windows)
+        * [Hopping time windows](#hoping-time-windows)
+        * [Sliding time windows](#sliding-time-windows)
+        * [Session windows](#session-windows)
+        * [Window final results](#window-final-results)
+
+* [Applying processors and transformers (Processor API integration)](#processors-and-transformers)
+    * [process: KStream -> void](#process)
+    * [transform: KStream -> KStream](#transform)
+    * [transformValues: KStream -> KStream](#transformValues)
+
+* [Record caches in the DSL](#record-caches)
+
+* [Controlling KTable emit rate](#control-ktable-emit-rate)
+
+* [Writing back streams to Kafka](#writing-back-to-kafka)
+    * [to: KStream -> void](#to)
 
 
 
@@ -671,7 +446,7 @@ https://docs.confluent.io/current/_images/streams-stateful_operations.png
 * [streams/WordCountLambdaExample.java](src/main/java/io/confluent/examples/streams/WordCountLambdaExample.java) 
 * [streams/WordCountLambdaExampleTest.java](src/test/java/io/confluent/examples/streams/WordCountLambdaExampleTest.java) 
 
-<a name="stateful-aggregatinb"/>
+<a name="stateful-aggregating"/>
 
 ## Stateful Aggregating operations
 
