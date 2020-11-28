@@ -1,23 +1,342 @@
 # STREAMS DSL
 
+---
+Table of contents
+
+* [Creating source streams from Kafka](#creating-source-streams-from-kafka)
+    * [input topic -> KStream](#topic-to-kstream)
+    * [input topic -> KTable](#topic-to-ktable)
+    * [input topic -> GlobalKTable](#topic-to-globalktable)
+
+* [Stateless Transformations](#stateless-transformations)
+    * [branch: KStream -> KStream[]](#branch)
+    * [filter: KStream -> KStream /  KTable -> KTable](#filter-kstream)
+
+
+
+<a name="filter-ktable"/>
+
+### filter: KStream -> KStream /  KTable -> KTable
+                                                                                                                                                                    
+--
+<a name="flatmap-kstream"/>
+
+### flatMap: KStream -> KStream
+
+--
+<a name="flatmap-ktable"/>
+
+### flatMapValues: KStream -> KStream
+
+--
+<a name="foreach"/>
+
+### foreach: KStream -> void / KTable -> void
+
+--
+<a name="groupbykey"/>
+
+### groupByKey: KStream -> KGroupedStream
+
+--
+<a name="groupby"/>
+
+### groupBy: KStream -> KGroupedStream / KTable -> KGroupedTable
+
+--
+<a name="cogroup"/>
+
+### cogroup: KGroupedStream -> CogroupedKStream / CogroupedKStream → CogroupedKStream
+
+--
+<a name="map"/>
+
+### map: KStream -> KStream
+
+--
+<a name="mapValues"/>
+
+### mapValues: KStream -> KStream / KTable -> KTable
+
+--
+<a name="merge"/>
+
+### merge: KStream -> KStream
+
+--
+<a name="peek"/>
+
+### peek: KStream -> KStream
+
+--
+<a name="print"/>
+
+### print: KStream -> void
+
+--
+<a name="repartition"/>
+
+### repartition: KStream -> KStream
+
+--
+<a name="selectkey"/>
+
+### selectKey: KStream -> KStream
+
+--
+<a name="stream-to-table"/>
+
+## Stream to Table: KStream -> KTable
+
+--
+<a name="table-to-stream"/>
+
+## Table to Stream: KTable -> KStream
+
+--
+<a name="stateful-transformations"/>
+
+# Stateful transformations
+
+--
+<a name="wordcount-example"/>
+
+## WordCount: A stateful application example
+
+--
+<a name="stateful-aggregatinb"/>
+
+## Stateful Aggregating operations
+
+--
+<a name="aggregate"/>
+
+### aggregate: KGroupedStream -> KTable / CogroupedKStream -> KTable / KGroupedTable -> KTable
+
+--
+<a name="windowed-aggregate"/>
+
+### windowedBy (aggregate windowed): 
+    KGroupedStream → TimeWindowedStream; TimeWindowedStream → KTable
+--
+<a name="count"/>
+
+### count: KGroupedStream → KTable / KGroupedTable → KTable
+
+--
+<a name="windowed-count"/>
+
+### count windowed: 
+
+--
+<a name="reduce"/>
+
+### reduce: KGroupedStream → KTable / KGroupedTable → KTable
+
+--
+<a name="windowed-reduce"/>
+
+### reduce (windowed):
+
+--
+<a name="stateful-joining"/>
+
+## Stateful Joining operations
+
+--
+<a name="kstream-kstream-join"/>
+
+## KStream-KStream join
+
+--
+<a name="ks-ks-inner-join"/>
+
+### Inner Join: (KStream, KStream) → KStream
+
+--
+<a name="ks-ks-leftjoin"/>
+
+### leftJoin: (KStream, KStream) → KStream
+
+--
+<a name="ks-ks-outerjoin"/>
+
+### outerJoin: (KStream, KStream) → KStream
+
+--
+<a name="kt-kt-join"/>
+
+## KTable-KTable join
+
+--
+<a name="kt-kt-innerjoin"/>
+
+### Inner Join: (KTable, KTable) → KTable
+
+--
+<a name="kt-kt-leftjoin"/>
+
+### leftJoin: (KTable, KTable) → KTable
+
+--
+<a name="ks-kt-join"/>
+
+## KStream-KTable join
+
+--
+<a name="ks-kt-innerjoin"/>
+
+### Inner Join: (KStream, KTable) → KStream
+
+--
+<a name="ks-kt-leftjoin"/>
+
+### leftJoin: (KStream, KTable) → KStream
+
+--
+<a name="ks-gkt-join"/>
+
+## KStream-GlobalKTable Join
+
+--
+<a name="ks-gkt-innerjoin"/>
+
+### Inner Join: (KStream, GlobalKTable) → KStream
+
+--
+<a name="ks-gkt-leftjoin"/>
+
+### leftJoin: (KStream, GlobalKTable) → KStream
+
+--
+<a name="stateful-windowing"/>
+
+## Stateful Windowing operations
+
+--
+<a name="custom-time-windows"/>
+
+### Example: custom time window
+
+--
+<a name="tumbling-time-windows"/>
+
+### Tumbling time windows
+
+--
+<a name="hoping-time-windows"/>
+
+### Hopping time windows
+ 
+--
+<a name="sliding-time-windows"/>
+
+## Sliding time windows
+
+--
+<a name="session-windows"/>
+
+## Session windows
+
+--
+<a name="window-final-results"/>
+
+## Window final results
+
+--
+<a name="processors-and-transformers"/>
+
+# Applying processors and transformers (Processor API integration)
+
+--
+<a name="process"/>
+  
+## process: KStream -> void
+
+--
+<a name="transform"/>
+
+## transform: KStream -> KStream
+
+--
+<a name="transformValues"/>
+
+## transformValues: KStream -> KStream
+
+--
+<a name="record-caches"/>
+
+# Record caches in the DSL
+
+--
+<a name="control-ktable-emit-rate"/>
+
+## Controlling KTable emit rate
+
+--
+<a name="writing-back-to-kafka"/>
+
+## Writing back streams to Kafka
+
+--
+<a name="to"/>
+
+### to: KStream -> void
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a name="stateless-transformations"/>
+
 # Stateless transformations
 
+<a name="creating-source-streams-from-kafka"/>
+
 ## Creating source streams from Kafka
+
+<a name="topic-to-kstream"/>
 
 ### input topic -> KStream:
 
 * [stateless/O1_KStreamFromTopic.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O1_KStreamFromTopic.java)
 * [stateless/O1_KStreamFromTopicTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O1_KStreamFromTopicTest.java)
 
+<a name="topic-to-ktable"/>
+
 ### input topic -> KTable:
 
 * [stateless/O2_KTableFromTopic.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O2_KTableFromTopic.java) 
 * [stateless/O2_KTableFromTopicTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O2_KTableFromTopicTest.java) 
 
+<a name="topic-to-globalktable"/>
+
 ### input topic -> GlobalKTable:
 
 * [stateless/O3_GlobalKTableFromTopic.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O3_GlobalKTableFromTopic.java) 
 * [stateless/O3_GlobalKTableFromTopicTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O3_GlobalKTableFromTopicTest.java) 
+
+<a name="branch"/>
 
 ### branch: KStream -> KStream[]
 
@@ -32,12 +351,16 @@ Branching is useful, for example, to route records to different downstream topic
 * [stateless/O4_branch.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O4_branch.java) 
 * [stateless/O4_branchTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O4_branchTest.java) 
 
+<a name="filter-kstream"/>
+
 ### filter: KStream -> KStream /  KTable -> KTable
 
 Evaluates a boolean function for each element and retains those for which the function returns true.
 
 * [stateless/O5_filter.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O5_filter.java) 
 * [stateless/O5_filterTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O5_filterTest.java) 
+
+<a name="filter-ktable"/>
 
 ### filter: KStream -> KStream /  KTable -> KTable
                                                                                                                                                                     
@@ -46,6 +369,7 @@ Evaluates a boolean function for each element and drops those for which the func
 * [stateless/O6_filterNotTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O6_filterNotTest.java) 
 * [stateless/O6_filterNot.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O6_filterNot.java) 
 
+<a name="flatmap-kstream"/>
 
 ### flatMap: KStream -> KStream
 
@@ -56,6 +380,8 @@ If possible use flatMapValues instead, which will not cause data re-partitioning
 
 * [stateless/O7_flatmapTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O7_flatmapTest.java) 
 * [stateless/O7_flatMap.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O7_flatMap.java)
+
+<a name="flatmap-ktable"/>
 
 ### flatMapValues: KStream -> KStream
 
@@ -72,6 +398,8 @@ flatMapValues is preferable to flatMap because it will not cause data re-partiti
 >
 > flatMapValues doesn't allow modifying neither the keys or key type
 
+<a name="foreach"/>
+
 ### foreach: KStream -> void / KTable -> void
 
 Terminal operation. Performs a stateless action on each record.
@@ -84,6 +412,8 @@ which means they will typically not benefit from Kafka’s processing guarantees
 
 * [stateless/OO9_foreachTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/OO9_foreachTest.java) 
 * [stateless/OO9_foreach.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/OO9_foreach.java) 
+
+<a name="groupbykey"/>
 
 ### groupByKey: KStream -> KGroupedStream
 
@@ -106,6 +436,8 @@ to modify the keys or the key type, so if you need to do it, use groupBy instead
 
 * [stateless/O10_groupByKey.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O10_groupByKey.java) 
 * [stateless/O10_groupByKeyTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O10_groupByKeyTest.java) 
+
+<a name="groupby"/>
 
 ### groupBy: KStream -> KGroupedStream / KTable -> KGroupedTable
 
@@ -135,6 +467,8 @@ if required.
 
 >groupByKey doesn't allow modifying neither the keys or key type
 
+<a name="cogroup"/>
+
 ### cogroup: KGroupedStream -> CogroupedKStream / CogroupedKStream → CogroupedKStream
 
 Cogrouping enables aggregating multiple input streams in a single operation. The different and already aggregated
@@ -157,7 +491,9 @@ marked for repartitioning.
 * [stateless/O12_cogroup.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O12_cogroup.java) 
 * [stateless/O12_cogroupTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O12_cogroupTest.java) 
 
-### Map: KStream -> KStream
+<a name="map"/>
+
+### map: KStream -> KStream
 
 Takes one record and produces one record. You can modify keys, values and their types too.
 
@@ -167,6 +503,8 @@ data re-partitioning.
 
 * [stateless/O13_mapTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O13_mapTest.java) 
 * [stateless/O13_map.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O13_map.java) 
+
+<a name="mapValues"/>
 
 ### mapValues: KStream -> KStream / KTable -> KTable
 
@@ -187,6 +525,8 @@ of ValueMapper
 >
 >mapValues doesn't allow modifying neither the keys or key type
 
+<a name="merge"/>
+
 ### merge: KStream -> KStream
 
 Merges records of two streams into one larger stream. 
@@ -196,6 +536,8 @@ within each input stream though, i.e. records within the same input are processe
 
 * [stateless/O15_merge.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O15_merge.java) 
 * [stateless/O15_mergeTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O15_mergeTest.java) 
+
+<a name="peek"/>
 
 ### peek: KStream -> KStream
 
@@ -213,6 +555,8 @@ with Kafka, which means they will typically not benefit from Kafka's processing 
 
 * [stateless/O16_peekTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O16_peekTest.java) 
 * [stateless/O16_peek.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O16_peek.java) 
+
+<a name="print"/>
 
 ### print: KStream -> void
 
@@ -238,6 +582,8 @@ Calling print(Printed.toSysOut()) is the same as calling foreach((key, value) ->
 [KSTREAM-MERGE-0000000002]: [B@8e0379d, you?
 [KSTREAM-MERGE-0000000002]: [B@341b80b2, thank you.
 
+<a name="repartition"/>
+
 ### repartition: KStream -> KStream
 
 Manually triggers re-partitioning of the stream with the specified number of partitions.
@@ -256,6 +602,8 @@ like transform(), that don't trigger auto re-partitioning when a key-changing op
 * [stateless/O18_repartition.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O18_repartition.java) 
 * [stateless/O18_repartitionTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O18_repartitionTest.java) 
 
+<a name="selectkey"/>
+
 ### selectKey: KStream -> KStream
 
 Assigns a new key and possibly a new key type also to each record of a stream.
@@ -268,6 +616,8 @@ of the records.
 * [stateless/O19_selectKeyTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O19_selectKeyTest.java) 
 * [stateless/O19_selectKey.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O19_selectKey.java) 
 
+<a name="stream-to-table"/>
+
 ## Stream to Table: KStream -> KTable
 
 Convert an event stream into a table or a changelog stream.
@@ -275,6 +625,8 @@ Convert an event stream into a table or a changelog stream.
 KStream<byte[], String> stream = ...;
 
 KTable<byte[], String> table = stream.toTable();
+
+<a name="table-to-stream"/>
 
 ## Table to Stream: KTable -> KStream
 
@@ -285,6 +637,8 @@ KTable<byte[], String> table = ...;
 // Also, a variant of `toStream` exists that allows you
 // to select a new key for the resulting stream.
 KStream<byte[], String> stream = table.toStream();
+
+<a name="stateful-transformations"/>
 
 # Stateful transformations
 
@@ -309,11 +663,15 @@ This diagram shows the relationships between the stateful transformations:
 
 https://docs.confluent.io/current/_images/streams-stateful_operations.png
 
+<a name="wordcount-example"/>
+
 ## WordCount: A stateful application example
 
 
 * [streams/WordCountLambdaExample.java](src/main/java/io/confluent/examples/streams/WordCountLambdaExample.java) 
 * [streams/WordCountLambdaExampleTest.java](src/test/java/io/confluent/examples/streams/WordCountLambdaExampleTest.java) 
+
+<a name="stateful-aggregatinb"/>
 
 ## Stateful Aggregating operations
 
@@ -332,6 +690,7 @@ You can perform aggregations on windowed or non-windowed data.
 
 >Do not use class member variables because data can potentially get lost in case of failure.
 
+<a name="aggregate"/>
 
 ### aggregate: KGroupedStream -> KTable / CogroupedKStream -> KTable / KGroupedTable -> KTable
 
@@ -383,6 +742,8 @@ Detailed behavior of KGroupedTable:
 * [stateful/aggregating/O02_aggregateStreamTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O02_aggregateStreamTest.java) 
 * [stateful/aggregating/O02_aggregateStream.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O02_aggregateStream.java) 
 
+<a name="windowed-aggregate"/>
+
 ### windowedBy (aggregate windowed): 
     KGroupedStream → TimeWindowedStream; TimeWindowedStream → KTable
     KGroupedStream → SessionWindowedStream; SessionWindowedStream → KTable
@@ -423,6 +784,8 @@ Detailed behavior:
 * [stateful/aggregating/O04_windowedBy.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O04_windowedBy.java) 
 * [stateful/aggregating/O04_windowedByTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O04_windowedByTest.java) 
 
+<a name="count"/>
+
 ### count: KGroupedStream → KTable / KGroupedTable → KTable
 
 Rolling aggregation. Counts the number of records by grouped key.
@@ -444,6 +807,7 @@ Detailed behavior for KGroupedTable:
 * [stateful/aggregating/O06_countTable.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O06_countTable.java) 
 * [stateful/aggregating/O06_countTableTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O06_countTableTest.java) 
 
+<a name="windowed-count"/>
 
 ### count windowed: 
 
@@ -457,6 +821,8 @@ The windowed count turns a TimeWindowedKStream<K, V> or a SessionWindowedKStream
 
 * [stateful/aggregating/O07_windowedByCountTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O07_windowedByCountTest.java) 
 * [stateful/aggregating/O07_windowedByCount.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O07_windowedByCount.java) 
+
+<a name="reduce"/>
 
 ### reduce: KGroupedStream → KTable / KGroupedTable → KTable
 
@@ -498,6 +864,8 @@ Detailed behavior of KGroupedTable:
 * [stateful/aggregating/O09_reduceTable.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O09_reduceTable.java) 
 * [stateful/aggregating/O09_reduceTableTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O09_reduceTableTest.java) 
 
+<a name="windowed-reduce"/>
+
 ### reduce (windowed):
 
     KGroupedStream → TimeWindowedStream; TimeWindowedStream → KTable
@@ -521,6 +889,8 @@ Detailed behavior:
 * When a record is received for the first time for a given window, then the value of that record is used as the initial aggregate value.
 * Whenever a record with non-null value is received for a given window, the adder is called.
 
+
+<a name="stateful-joining"/>
 
 ## Stateful Joining operations
 
@@ -645,6 +1015,8 @@ For KT-KT joins consider the size of the KTables (number or records?) and repart
     * If "SMALLER" is a KTable: KTable#toStream#repartition(Repartitioned.numberOfPartitions(...).toTable())
 3. Within your application, perform the join between the "LARGER" and the new stream/table.
 
+<a name="kstream-kstream-join"/>
+
 ## KStream-KStream join
 
 KStream-KStream joins are always windowed joins, because otherwise the size of the internal state store used to perform
@@ -664,6 +1036,7 @@ KeyValue<K, JV> joinOutputRecord = KeyValue.pair(
     joiner.apply(leftRecord.value, rightRecord.value)
   );
 
+<a name="ks-ks-inner-join"/>
 
 ### Inner Join: (KStream, KStream) → KStream
 
@@ -691,6 +1064,8 @@ Detailed behavior:
 
 * [stateful/joining/ks_ks/O01_innerJoinTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O01_innerJoinTest.java) 
 * [stateful/joining/ks_ks/O01_innerJoin.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O01_innerJoin.java) 
+
+<a name="ks-ks-leftjoin"/>
 
 ### leftJoin: (KStream, KStream) → KStream
 
@@ -724,6 +1099,8 @@ Working code examples found here:
 * [stateful/joining/ks_ks/O02_leftJoinTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O02_leftJoinTest.java) 
 * [stateful/joining/ks_ks/O02_leftJoin.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O02_leftJoin.java) 
 
+<a name="ks-ks-outerjoin"/>
+
 ### outerJoin: (KStream, KStream) → KStream
 
 Performs an outer join of the left stream with the right stream.
@@ -754,6 +1131,8 @@ Detailed behavior:
 * [stateful/joining/ks_ks/O03_outerJoinTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoinTest.java) 
 * [stateful/joining/ks_ks/O03_outerJoin.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoin.java) 
 
+<a name="kt-kt-join"/>
+
 ## KTable-KTable join
 
 KTable-KTable joins are always non windowed joins.
@@ -776,6 +1155,7 @@ KeyValue<K, JV> joinOutputRecord = KeyValue.pair(
     joiner.apply(leftRecord.value, rightRecord.value)
 );
 ```
+<a name="kt-kt-innerjoin"/>
 
 ### Inner Join: (KTable, KTable) → KTable
 
@@ -801,6 +1181,8 @@ Detailed behavior:
 * [stateful/joining/kt_kt/O01_innerJoinTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O01_innerJoinTest.java) 
 * [stateful/joining/kt_kt/O01_innerJoin.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O01_innerJoin.java) 
 
+<a name="kt-kt-leftjoin"/>
+
 ### leftJoin: (KTable, KTable) → KTable
 
 Performs a left join of the left table with the right table.
@@ -824,6 +1206,8 @@ Detailed behavior:
 
 * [stateful/joining/kt_kt/O02_leftJoinTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O02_leftJoinTest.java) 
 * [stateful/joining/kt_kt/O02_leftJoin.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O02_leftJoin.java) 
+
+<a name="ks-kt-join"/>
 
 ## KStream-KTable join
 
@@ -889,6 +1273,8 @@ Timestamp  | KSTream record      KTable record      KSTream outout join       KS
 000000001  |                     (1, a)
 000000002  | (1, A)                                 Left=A, Right=a           Left=A, Right=a
 
+<a name="ks-kt-innerjoin"/>
+
 ### Inner Join: (KStream, KTable) → KStream
 
 Performs an inner join on the left stream with the table, effectively doing a table lookup.
@@ -912,6 +1298,8 @@ Detailed behavior:
 
 * [stateful/joining/ks_kt/O01_innerJoinTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O01_innerJoinTest.java) 
 * [stateful/joining/ks_kt/O01_innerJoin.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O01_innerJoin.java) 
+
+<a name="ks-kt-leftjoin"/>
 
 ### leftJoin: (KStream, KTable) → KStream
 
@@ -942,6 +1330,8 @@ Find working examples here:
   
 * [stateful/joining/ks_kt/O02_leftJoinTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O02_leftJoinTest.java) 
 * [stateful/joining/ks_kt/O02_leftJoin.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O02_leftJoin.java) 
+
+<a name="ks-gkt-join"/>
 
 ## KStream-GlobalKTable Join
 
@@ -977,6 +1367,8 @@ KeyValue<K, JV> joinOutputRecord = KeyValue.pair(
     leftRecord.key,     // by definition, leftRecord.key == rightRecord.key
     joiner.apply(leftRecord.value, rightRecord.value)
 );
+
+<a name="ks-gkt-innerjoin"/>
 
 ### Inner Join: (KStream, GlobalKTable) → KStream
 
@@ -1077,6 +1469,8 @@ drwxrwxr-x 3  4096 nov 17 07:00 ../
 * [stateful/joining/ks_gkt/O01_anyKindOfJoinDriver.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_gkt/O01_anyKindOfJoinDriver.java) 
 * [stateful/joining/ks_gkt/O01_anyKindOfJoin.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_gkt/O01_anyKindOfJoin.java) 
 
+<a name="ks-gkt-leftjoin"/>
+
 ### leftJoin: (KStream, GlobalKTable) → KStream
 
 Performs a left join of the left stream with the global table, effectively doing a table lookup.
@@ -1110,6 +1504,7 @@ Detailed behavior:
 (SAME EXAMPLE THAN INNER JOIN)
 
 
+<a name="stateful-windowing"/>
 
 ## Stateful Windowing operations
 
@@ -1143,12 +1538,15 @@ Sliging time window     | Time-based 	   | Fixed-size, overlapping windows that 
                         |                  | timestamps                                                               
 Session window          | Session-based    | Dynamically-sized, non-overlapping, data-driven windows                  
 
+<a name="custom-time-windows"/>
 
 ### Example: custom time window
 
 * [src/test/java/io/confluent/examples/streams/window/]src/test/java/io/confluent/examples/streams/window/
     - CustomWindowTest.java
     - DailyTimeWindows.java
+
+<a name="tumbling-time-windows"/>
 
 ### Tumbling time windows
 
@@ -1180,6 +1578,8 @@ Data records arriving in two streams
  
 * [stateful/windowing/O01_tumblingWindowTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O01_tumblingWindowTest.java) 
 * [stateful/windowing/O01_tumblingWindow.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O01_tumblingWindow.java) 
+
+<a name="hoping-time-windows"/>
 
 ### Hopping time windows
  
@@ -1223,6 +1623,8 @@ Data records arriving in two streams
 * [stateful/windowing/O02_hoppingTimeWindowTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O02_hoppingTimeWindowTest.java) 
 * [stateful/windowing/O02_hoppingTimeWindow.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O02_hoppingTimeWindow.java) 
 
+<a name="sliding-time-windows"/>
+
 ## Sliding time windows
 
 Sliding time windows are actually quite different from hoping and tumbling windows.
@@ -1245,6 +1647,8 @@ In contrast to hoping windows, the lower and upper window time interval bounds o
 
 * [stateful/joining/ks_ks/O03_outerJoinTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoinTest.java) 
 * [stateful/joining/ks_ks/O03_outerJoin.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoin.java) 
+
+<a name="session-windows"/>
 
 ## Session windows
 
@@ -1284,6 +1688,8 @@ Again, given a session window of 5 minutes, here's what would happen if we had r
                                                                                
 * [stateful/windowing/O04_sessionWindowTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O04_sessionWindowTest.java) 
 * [stateful/windowing/O04_sessionWindow.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O04_sessionWindow.java) 
+
+<a name="window-final-results"/>
 
 ## Window final results
 
@@ -1373,6 +1779,8 @@ To view a custom implementation of a daily window starting every day at 6pm, ref
 
 The example also shows a potential problem in dealing with time zones that have daylight savings time.
 
+<a name="processors-and-transformers"/>
+
 # Applying processors and transformers (Processor API integration)
 
 Beyond the aforementioned stateless and stateful transformations, we may also leverage the Processor API from the DSL.
@@ -1390,6 +1798,8 @@ There are a number of scenarios where this may be helpful:
 * Migrating from other tools: we are migrating from other stream processing technologies that provide an imperative API,
   and migrating some of our legacy code to the Processor API was faster and/or easier than to migrate completely to the
   DSL right away.
+  
+<a name="process"/>
   
 ## process: KStream -> void
 
@@ -1448,6 +1858,7 @@ These examples have been implemented using the information provided here:
 
 https://docs.confluent.io/current/streams/javadocs/org/apache/kafka/streams/kstream/KStream.html#process-org.apache.kafka.streams.processor.ProcessorSupplier-java.lang.String...-
 
+<a name="transform"/>
 
 ## transform: KStream -> KStream
 
@@ -1528,6 +1939,8 @@ Also examples here:
     this.process(userInputStream, otpTable);
 ```
 
+<a name="transformValues"/>
+
 ## transformValues: KStream -> KStream
 
 Applies a ValueTransformer to each record, while retaining the key of the original record.
@@ -1579,6 +1992,8 @@ https://docs.confluent.io/platform/current/streams/javadocs/org/apache/kafka/str
     . EmailMetricThresholdAlert_ValueTransformerSupplier.java
     . EmailMetricThresholdAlert_ValueTransformerWithKey.java
     . EmailMetricThresholdAlert_ValueTransformerWithKeySupplier.java
+
+<a name="record-caches"/>
 
 # Record caches in the DSL
 
@@ -1692,6 +2107,8 @@ Here are example settings for both parameters based on desired scenarios.
     streamsConfiguration.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 1000);
 ```
 
+<a name="control-ktable-emit-rate"/>
+
 ## Controlling KTable emit rate
 
 https://cwiki.apache.org/confluence/display/KAFKA/KIP-328%3A+Ability+to+suppress+updates+for+KTables
@@ -1763,12 +2180,15 @@ After the application shuts down, you can allocate more memory for the buffer an
 
 Emitting early is preferable for most applications than shutting down. 
 
+<a name="writing-back-to-kafka"/>
+
 ## Writing back streams to Kafka
 
 Any streams and tables may be continuously written back to a Kafka topic.
 
 The output data might be re-partitioned on it's way to Kafka, depending on the situation.
 
+<a name="to"/>
 
 ### to: KStream -> void
 
