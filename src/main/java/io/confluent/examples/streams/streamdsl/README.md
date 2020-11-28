@@ -1,25 +1,23 @@
 # STREAMS DSL
 
-# Creating source streams from Kafka
+# Stateless transformations
 
-                                                     __                      
+## Creating source streams from Kafka
+
 ### input topic -> KStream:
 
-* src/main/java/io/confluent/examples/streams/streamdsl/stateless/O1_KStreamFromTopic.java 
-* src/test/java/io/confluent/examples/streams/streamdsl/O1_KStreamFromTopicTest.java
+* [O1_KStreamFromTopic.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O1_KStreamFromTopic.java)
+* [O1_KStreamFromTopicTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O1_KStreamFromTopicTest.java)
 
 ### input topic -> KTable:
 
 * src/main/java/io/confluent/examples/streams/streamdsl/stateless/O2_KTableFromTopic.java 
-* src/test/java/io/confluent/examples/streams/streamdsl/O2_KTableFromTopicTest.java 
+* src/test/java/io/confluent/examples/streams/streamdsl/stateless/O2_KTableFromTopicTest.java 
 
 ### input topic -> GlobalKTable:
 
-* src/test/java/io/confluent/examples/streams/streamdsl/O3_GlobalKTableFromTopicTest.java 
+* src/test/java/io/confluent/examples/streams/streamdsl/stateless/O3_GlobalKTableFromTopicTest.java 
 * src/main/java/io/confluent/examples/streams/streamdsl/stateless/O3_GlobalKTableFromTopic.java 
-
-# Stateless transformations
-
 
 ### Branch: KStream -> KStream[]
 
@@ -43,7 +41,7 @@ Evaluates a boolean function for each element and retains those for which the fu
 16:21:37 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O5_filter.java 
 -rw-rw-r-- 1 6276 nov  3 17:08 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O5_filter.java
 
-17:09:56 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O5_filterTest.java 
+17:09:56 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateless/O5_filterTest.java 
 -rw-rw-r-- 1 4373 nov  3 17:05 src/test/java/io/confluent/examples/streams/streamdsl/O5_filterTest.java
 
 
