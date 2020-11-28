@@ -36,21 +36,15 @@ Branching is useful, for example, to route records to different downstream topic
 
 Evaluates a boolean function for each element and retains those for which the function returns true.
 
-
-src/main/java/io/confluent/examples/streams/streamdsl/stateless/O5_filter.java 
-src/test/java/io/confluent/examples/streams/streamdsl/stateless/O5_filterTest.java 
-
+* [stateless/O5_filter.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O5_filter.java) 
+* [stateless/O5_filterTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O5_filterTest.java) 
 
 ### filter: KStream -> KStream /  KTable -> KTable
                                                                                                                                                                     
 Evaluates a boolean function for each element and drops those for which the function returns true. 
 
-
-17:50:04 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O6_filterNotTest.java 
--rw-rw-r-- 1 4394 nov  3 17:17 src/test/java/io/confluent/examples/streams/streamdsl/O6_filterNotTest.java
-
-17:50:52 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O6_filterNot.java 
--rw-rw-r-- 1 6051 nov  3 17:26 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O6_filterNot.java
+* [stateless/O6_filterNotTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O6_filterNotTest.java) 
+* [stateless/O6_filterNot.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O6_filterNot.java) 
 
 
 ### flatMap: KStream -> KStream
@@ -60,11 +54,8 @@ Takes one record and produces zero, one, or more records. You can modify the rec
 Marks the stream for data re-partitioning: Applying a grouping or a join after flatMap will result in re-partitioning of the records.
 If possible use flatMapValues instead, which will not cause data re-partitioning.
 
-17:10:08 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O7_flatmapTest.java 
--rw-rw-r-- 1 3875 nov  3 17:49 src/test/java/io/confluent/examples/streams/streamdsl/O7_flatmapTest.java
-
-17:49:57 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O7_flatMap.java 
--rw-rw-r-- 1 6519 nov  3 17:41 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O7_flatMap.java
+* [stateless/O7_flatmapTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O7_flatmapTest.java) 
+* [stateless/O7_flatMap.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O7_flatMap.java)
 
 ### flatMapValues: KStream -> KStream
 
@@ -73,11 +64,8 @@ Takes one record and produces zero, one, or more records, while retaining the ke
 flatMapValues is preferable to flatMap because it will not cause data re-partitioning. However, you cannot modify the key or key type like flatMap does.
 
 
-17:51:00 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O8_flatMapValues.java 
--rw-rw-r-- 1 6301 nov  4 06:43 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O8_flatMapValues.java
-
-06:49:22 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O8_flatMapValuesTest.java 
--rw-rw-r-- 1 3754 nov  4 06:47 src/test/java/io/confluent/examples/streams/streamdsl/O8_flatMapValuesTest.java
+* [stateless/O8_flatMapValues.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O8_flatMapValues.java) 
+* [stateless/O8_flatMapValuesTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O8_flatMapValuesTest.java) 
 
 **Note:**
 > flatMap allows you to modify the keys and key type
@@ -94,12 +82,8 @@ input data (unlike peek, which is not a terminal operation).
 Note on processing guarantees: Any side effects of an action (such as writing to external systems) are not trackable by Kafka,
 which means they will typically not benefit from Kafka’s processing guarantees.
 
-
-06:49:36 $ ll src/test/java/io/confluent/examples/streams/streamdsl/OO9_foreachTest.java 
--rw-rw-r-- 1 3989 nov  4 06:59 src/test/java/io/confluent/examples/streams/streamdsl/OO9_foreachTest.java
-
-07:02:02 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/OO9_foreach.java 
--rw-rw-r-- 1 6242 nov  4 07:00 src/main/java/io/confluent/examples/streams/streamdsl/stateless/OO9_foreach.java
+* [stateless/OO9_foreachTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/OO9_foreachTest.java) 
+* [stateless/OO9_foreach.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/OO9_foreach.java) 
 
 ### groupByKey: KStream -> KGroupedStream
 
@@ -120,11 +104,8 @@ preferable to groupBy because it re-partitions data only if it was already marke
 to modify the keys or the key type, so if you need to do it, use groupBy instead, which allows this action.
 
 
-07:02:22 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O10_groupByKey.java 
--rw-rw-r-- 1 7406 nov  4 10:24 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O10_groupByKey.java
-
-07:01:15 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O10_groupByKeyTest.java 
--rw-rw-r-- 1 4185 nov  4 10:19 src/test/java/io/confluent/examples/streams/streamdsl/O10_groupByKeyTest.java
+* [stateless/O10_groupByKey.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O10_groupByKey.java) 
+* [stateless/O10_groupByKeyTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O10_groupByKeyTest.java) 
 
 ### groupBy: KStream -> KGroupedStream / KTable -> KGroupedTable
 
@@ -146,12 +127,8 @@ key into so-called windows for stateful operations such as windowed aggregations
 if required.
 
 
-10:25:13 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O11_groupBy.java 
--rw-rw-r-- 1 6244 nov  4 11:30 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O11_groupBy.java
-
-
-10:25:01 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O11_groupByTest.java 
--rw-rw-r-- 1 4409 nov  4 11:33 src/test/java/io/confluent/examples/streams/streamdsl/O11_groupByTest.java
+* [stateless/O11_groupBy.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O11_groupBy.java) 
+* [stateless/O11_groupByTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O11_groupByTest.java) 
 
 **Note:**
 >groupBy allows you to modify the keys and key type
@@ -177,11 +154,8 @@ In the process of creating these groups they will have already been repartitione
 marked for repartitioning.
 
 
-12:37:47 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O12_cogroup.java 
--rw-rw-r-- 1 7018 nov  4 16:52 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O12_cogroup.java
-
-12:39:23 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O12_cogroupTest.java 
--rw-rw-r-- 1 4962 nov  4 16:29 src/test/java/io/confluent/examples/streams/streamdsl/O12_cogroupTest.java
+* [stateless/O12_cogroup.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O12_cogroup.java) 
+* [stateless/O12_cogroupTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O12_cogroupTest.java) 
 
 ### Map: KStream -> KStream
 
@@ -191,12 +165,8 @@ Marks the stream for data re-partitioning. Applying a grouping or a join after t
 result in re-partitioning on the records. If possible use mapValues instead, which doesn't cause
 data re-partitioning.
 
-16:53:26 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O13_mapTest.java 
--rw-rw-r-- 1 3888 nov  5 06:43 src/test/java/io/confluent/examples/streams/streamdsl/O13_mapTest.java
-
-
-16:53:33 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O13_map.java 
--rw-rw-r-- 1 6530 nov  5 06:42 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O13_map.java
+* [stateless/O13_mapTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O13_mapTest.java) 
+* [stateless/O13_map.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O13_map.java) 
 
 ### mapValues: KStream -> KStream / KTable -> KTable
 
@@ -209,11 +179,8 @@ Note that it is possible though to get read-only access to the input record key 
 of ValueMapper
 
 
-06:43:34 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O14_mapValues.java 
--rw-rw-r-- 1 6416 nov  5 07:07 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O14_mapValues.java
-
-06:43:27 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O14_mapValuesTest.java 
--rw-rw-r-- 1 3934 nov  5 07:11 src/test/java/io/confluent/examples/streams/streamdsl/O14_mapValuesTest.java
+* [stateless/O14_mapValues.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O14_mapValues.java) 
+* [stateless/O14_mapValuesTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O14_mapValuesTest.java) 
 
 **Note:**
 >map allows you to modify the keys and key type
@@ -227,11 +194,8 @@ Merges records of two streams into one larger stream.
 There is NO ORDER GUARANTEE between records from different streams in the merged stream. Relative order is preserved
 within each input stream though, i.e. records within the same input are processed in order. 
 
-07:11:24 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O15_merge.java 
--rw-rw-r-- 1 5952 nov  5 08:07 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O15_merge.java
-
-07:11:19 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O15_mergeTest.java 
--rw-rw-r-- 1 4164 nov  5 08:10 src/test/java/io/confluent/examples/streams/streamdsl/O15_mergeTest.java
+* [stateless/O15_merge.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O15_merge.java) 
+* [stateless/O15_mergeTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O15_mergeTest.java) 
 
 ### peek: KStream -> KStream
 
@@ -247,11 +211,8 @@ Peek is helpful for those us cases such as logging or tracking metrics or for de
 Note on processing guarantees: any side effects of an action, such as writing on external systems, are not trackable
 with Kafka, which means they will typically not benefit from Kafka's processing guarantees.
 
-08:10:15 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O16_peekTest.java 
--rw-rw-r-- 1 4426 nov  5 11:22 src/test/java/io/confluent/examples/streams/streamdsl/O16_peekTest.java
-
-08:10:26 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O16_peek.java 
--rw-rw-r-- 1 6051 nov  5 11:22 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O16_peek.java
+* [stateless/O16_peekTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O16_peekTest.java) 
+* [stateless/O16_peek.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O16_peek.java) 
 
 ### print: KStream -> void
 
@@ -259,11 +220,8 @@ Terminal operation. Prints the records to System.out or into a file.
 
 Calling print(Printed.toSysOut()) is the same as calling foreach((key, value) -> System.out.println(key + ", " + value))
 
-13:02:16 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateless/O10_groupByKeyTest.java 
--rw-rw-r-- 1 4475 nov  5 12:56 src/test/java/io/confluent/examples/streams/streamdsl/stateless/O10_groupByKeyTest.java
-
-11:23:15 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/stateless/O10_groupByKey.java 
--rw-rw-r-- 1 7645 nov  5 13:01 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O10_groupByKey.java
+* [stateless/O10_groupByKeyTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O10_groupByKeyTest.java) 
+* [stateless/O10_groupByKey.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O10_groupByKey.java) 
 
 11:23:08 $ cat /tmp/print-stream-example.txt 
 [KTABLE-TOSTREAM-0000000010]: 1, 1
@@ -272,11 +230,8 @@ Calling print(Printed.toSysOut()) is the same as calling foreach((key, value) ->
 [KTABLE-TOSTREAM-0000000010]: 2, 2
 [KTABLE-TOSTREAM-0000000010]: 2, 3
 
-13:03:29 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O17_print.java 
--rw-rw-r-- 1 6160 nov  5 13:11 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O17_print.java
-
-13:11:49 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateless/O17_printTest.java 
--rw-rw-r-- 1 4444 nov  5 12:56 src/test/java/io/confluent/examples/streams/streamdsl/stateless/O17_printTest.java
+* [stateless/O17_print.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O17_print.java) 
+* [stateless/O17_printTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O17_printTest.java) 
 
 13:03:01 $ cat /tmp/print-stream-example.txt 
 [KSTREAM-MERGE-0000000002]: [B@7f77e91b, World!
@@ -298,12 +253,8 @@ The reartition() operation always triggers re-partitioning of the stream, so you
 like transform(), that don't trigger auto re-partitioning when a key-changing operation is performed beforehand.
 
 
-
-13:12:26 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O18_repartition.java 
--rw-rw-r-- 1 5721 nov  5 13:38 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O18_repartition.java
-
-13:12:19 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateless/O18_repartitionTest.java 
--rw-rw-r-- 1 3589 nov  5 13:39 src/test/java/io/confluent/examples/streams/streamdsl/stateless/O18_repartitionTest.java
+* [stateless/O18_repartition.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O18_repartition.java) 
+* [stateless/O18_repartitionTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O18_repartitionTest.java) 
 
 ### selectKey: KStream -> KStream
 
@@ -314,11 +265,8 @@ Calling selectKey(mapper) is the same as calling map((key, value) -> mapper(key,
 Marks the stream for data re-partitioning: applying a grouping or a join after selectKey will result in re-partitioning
 of the records.
 
-13:39:49 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateless/O19_selectKeyTest.java 
--rw-rw-r-- 1 3825 nov  5 13:58 src/test/java/io/confluent/examples/streams/streamdsl/stateless/O19_selectKeyTest.java
-
-13:39:56 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O19_selectKey.java 
--rw-rw-r-- 1 6222 nov  5 14:04 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O19_selectKey.java
+* [stateless/O19_selectKeyTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O19_selectKeyTest.java) 
+* [stateless/O19_selectKey.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O19_selectKey.java) 
 
 ## Stream to Table: KStream -> KTable
 
