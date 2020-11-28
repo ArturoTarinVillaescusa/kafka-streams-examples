@@ -103,9 +103,7 @@ $ mvn clean package
 >```
 > $ mvn -DskipTests=true -Dcheckstyle.skip clean package
 >```
-> You can now run the application examples as follows:
- 
-Next, run or debug the tests from IntelliJ (or Eclipse)
+> Next, run or debug the tests from IntelliJ (or Eclipse)
 
 
 <a name="stateless-transformations"/>
