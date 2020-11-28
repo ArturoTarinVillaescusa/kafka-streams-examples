@@ -17,7 +17,7 @@ Table of Contents
     * [Examples: Integration Tests](#examples-integration-tests)
     * [Docker Example: Kafka Music demo application](#examples-docker)
     * [Examples: Event Streaming Platform](#examples-event-streaming-platform)
-    * [Additional Examples: Stream DSL components with examples](src/main/java/io/confluent/examples/streams/streamdsl/README.md)
+    * [Additional Examples: Stream DSL components with examples](README_DSL.md)
 * [Requirements](#requirements)
     * [Apache Kafka](#requirements-kafka)
     * [Confluent Platform](#requirements-confluent-platform)
