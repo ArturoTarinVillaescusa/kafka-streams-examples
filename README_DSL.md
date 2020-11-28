@@ -312,11 +312,8 @@ https://docs.confluent.io/current/_images/streams-stateful_operations.png
 ## WordCount: A stateful application example
 
 
-14:04:23 $ ll src/main/java/io/confluent/examples/streams/WordCountLambdaExample.java 
--rw-rw-r-- 1 11326 nov  5 14:31 src/main/java/io/confluent/examples/streams/WordCountLambdaExample.java
-
-14:04:31 $ ll src/test/java/io/confluent/examples/streams/WordCountLambdaExampleTest.java 
--rw-rw-r-- 1 4996 nov  5 14:26 src/test/java/io/confluent/examples/streams/WordCountLambdaExampleTest.java
+* src/main/java/io/confluent/examples/streams/WordCountLambdaExample.java 
+* []src/test/java/io/confluent/examples/streams/WordCountLambdaExampleTest.java 
 
 ## Stateful Aggregating operations
 
@@ -377,29 +374,14 @@ Detailed behavior of KGroupedTable:
   So, in contrast to KGroupedStream, over time the KGroupedTable initializer may be called more than once
   for a key
 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O01_aggregate.java 
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O01_aggregateTest.java 
 
-14:31:25 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O01_aggregate.java 
--rw-rw-r-- 1 6990 nov  6 06:29 src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O01_aggregate.java
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O03_aggregateTable.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O03_aggregateTable.java 
 
-14:31:49 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O01_aggregateTest.java 
--rw-rw-r-- 1 3959 nov  6 06:37 src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O01_aggregateTest.java
-
-
-
-06:40:56 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O03_aggregateTable.java 
--rw-rw-r-- 1 7563 nov  6 13:48 src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O03_aggregateTable.java
-
-06:40:56 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O03_aggregateTable.java 
--rw-rw-r-- 1 7563 nov  6 13:48 src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O03_aggregateTable.java
-
-
-
-14:08:18 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O02_aggregateStreamTest.java 
--rw-rw-r-- 1 4361 nov  6 12:32 src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O02_aggregateStreamTest.java
-
-
-14:08:23 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O02_aggregateStream.java 
--rw-rw-r-- 1 7535 nov  6 14:07 src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O02_aggregateStream.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O02_aggregateStreamTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O02_aggregateStream.java 
 
 ### windowedBy (aggregate windowed): 
     KGroupedStream → TimeWindowedStream; TimeWindowedStream → KTable
@@ -438,11 +420,8 @@ Detailed behavior:
 * Whenever a record with non-null value is received for a given window, the adder is called
 * When using session windows the session merger is called whenever two sessions are being merged. 
 
-05:53:33 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O04_windowedBy.java 
--rw-rw-r-- 1 13211 nov  7 14:46 src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O04_windowedBy.java
-
-14:10:41 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O04_windowedByTest.java 
--rw-rw-r-- 1 6847 nov  7 14:47 src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O04_windowedByTest.java
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O04_windowedBy.java 
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O04_windowedByTest.java 
 
 ### count: KGroupedStream → KTable / KGroupedTable → KTable
 
@@ -459,26 +438,12 @@ Detailed behavior for KGroupedTable:
   of the key from the table
 
 
-14:48:30 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O05_countStream.java 
--rw-rw-r-- 1 5821 nov  7 21:33 src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O05_countStream.java
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O05_countStream.java 
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O05_countStreamTest.java 
 
-14:48:18 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O05_countStreamTest.java 
--rw-rw-r-- 1 4409 nov  7 21:33 src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O05_countStreamTest.java
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O06_countTable.java 
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O06_countTableTest.java 
 
-
-21:33:45 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O06_countTable.java 
--rw-rw-r-- 1 5965 nov  7 21:39 src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O06_countTable.java
-
-21:33:38 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O06_countTableTest.java 
--rw-rw-r-- 1 4379 nov  7 21:31 src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O06_countTableTest.java
-
-
-count KTable throws an error:
-
-org.apache.kafka.streams.errors.StreamsException: ClassCastException while producing data to topic
-kstreams-from-topic-KTABLE-AGGREGATE-STATE-STORE-0000000004-repartition.
-A serializer (key: org.apache.kafka.common.serialization.StringSerializer / value:
-org.apache.kafka.streams.kstream.internals.ChangedSerializer) is not compatible to the actual key or value type 
 
 ### count windowed: 
 
@@ -490,11 +455,8 @@ Windowed aggregation. Counts the number of records per window by the grouped key
 The windowed count turns a TimeWindowedKStream<K, V> or a SessionWindowedKStream into a KTable<Windowed<K>, V>
 
 
-21:40:09 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O07_windowedByCountTest.java 
--rw-rw-r-- 1 5491 nov  8 07:20 src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O07_windowedByCountTest.java
-
-21:40:17 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O07_windowedByCount.java 
--rw-rw-r-- 1 7022 nov  8 07:19 src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O07_windowedByCount.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O07_windowedByCountTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O07_windowedByCount.java 
 
 ### reduce: KGroupedStream → KTable / KGroupedTable → KTable
 
@@ -530,22 +492,11 @@ Detailed behavior of KGroupedTable:
   Note that whenever the subtractor returns a null value itself, then the corresponding key is removed from the KTable.
   If that happens, any next input record for that key will re-initialize its aggregate value.
 
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O08_reduceStreamTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O08_reduceStream.java 
 
-
-07:20:32 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O08_reduceStreamTest.java 
--rw-rw-r-- 1 4291 nov  8 08:21 src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O08_reduceStreamTest.java
-
-
-07:20:43 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O08_reduceStream.java 
--rw-rw-r-- 1 7028 nov  8 08:20 src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O08_reduceStream.java
-
-
-08:21:56 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O09_reduceTable.java 
--rw-rw-r-- 1 7272 nov  8 08:16 src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O09_reduceTable.java
-
-
-08:22:13 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O09_reduceTableTest.java 
--rw-rw-r-- 1 4025 nov  8 08:20 src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O09_reduceTableTest.java
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O09_reduceTable.java 
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O09_reduceTableTest.java 
 
 ### reduce (windowed):
 
@@ -738,11 +689,8 @@ Detailed behavior:
   
 * When a join is triggered, the user-supplied ValueJoiner will be called to produce join output records.
 
-20:14:20 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O01_innerJoinTest.java 
--rw-rw-r-- 1 5713 nov 12 17:22 src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O01_innerJoinTest.java
-
-20:14:27 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O01_innerJoin.java 
--rw-rw-r-- 1 6233 nov 12 17:33 src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O01_innerJoin.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O01_innerJoinTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O01_innerJoin.java 
 
 ### leftJoin: (KStream, KStream) → KStream
 
@@ -770,13 +718,11 @@ Detailed behavior:
         matched
 * For each input record on the left hand side that does not have any match on the right side, the ValueJoiner will be
   called with ValueJoiner#apply(leftRecord.value, null)
-    
 
-20:15:15 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O02_leftJoinTest.java 
--rw-rw-r-- 1 5705 nov 12 20:36 src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O02_leftJoinTest.java
+Working code examples found here:
 
-20:37:42 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O02_leftJoin.java 
--rw-rw-r-- 1 6388 nov 12 20:36 src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O02_leftJoin.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O02_leftJoinTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O02_leftJoin.java 
 
 ### outerJoin: (KStream, KStream) → KStream
 
@@ -805,11 +751,8 @@ Detailed behavior:
   ValueJoiner#apply(leftRecord.value, null) or ValueJoiner#apply(null, rightRecord.value), respectively.
 
 
-20:41:59 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoinTest.java 
--rw-rw-r-- 1 5689 nov 13 06:52 src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoinTest.java
-
-20:41:51 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoin.java 
--rw-rw-r-- 1 6376 nov 13 06:52 src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoin.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoinTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoin.java 
 
 ## KTable-KTable join
 
@@ -855,13 +798,8 @@ Detailed behavior:
      When an input tombstone is received, then an output tombstone is forwarded directly to the output result KTable only
      if the corresponding key actually exists already in this output KTable.
 
-
-
-07:22:12 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O01_innerJoinTest.java 
--rw-rw-r-- 1 4943 nov 13 15:31 src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O01_innerJoinTest.java
-
-07:22:00 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O01_innerJoin.java 
--rw-rw-r-- 1 6474 nov 13 08:50 src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O01_innerJoin.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O01_innerJoinTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O01_innerJoin.java 
 
 ### leftJoin: (KTable, KTable) → KTable
 
@@ -884,12 +822,8 @@ Detailed behavior:
 * For each input record on the left side that doesn't have any match on the right side, the ValueJoiner will be called
   with ValueJoiner#apply(leftRecord.key, null)
 
-
-15:31:54 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O02_leftJoinTest.java 
--rw-rw-r-- 1 4935 nov 14 09:27 src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O02_leftJoinTest.java
-
-16:10:31 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O02_leftJoin.java 
--rw-rw-r-- 1 6488 nov 14 09:18 src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O02_leftJoin.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O02_leftJoinTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O02_leftJoin.java 
 
 ## KStream-KTable join
 
@@ -976,12 +910,8 @@ Detailed behavior:
      indicate the deletion of the key from the table.
      Tombstones do not trigger the join.
 
-
-06:52:42 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O01_innerJoinTest.java 
--rw-rw-r-- 1 4021 nov 16 06:47 src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O01_innerJoinTest.java
-
-06:52:55 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O01_innerJoin.java 
--rw-rw-r-- 1 6231 nov 16 06:51 src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O01_innerJoin.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O01_innerJoinTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O01_innerJoin.java 
 
 ### leftJoin: (KStream, KTable) → KStream
 
@@ -1007,13 +937,11 @@ Detailed behavior:
 
 * For each input record on the left side stream that do not have any match on the right side table, the ValueJoiner will
   be called with ValueJoiner#apply(leftRecord.value, null)
+
+Find working examples here:
   
-09:55:50 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O02_leftJoinTest.java 
--rw-rw-r-- 1 4444 nov 16 11:28 src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O02_leftJoinTest.java
-
-12:40:52 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O02_leftJoin.java 
--rw-rw-r-- 1 6463 nov 16 11:03 src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O02_leftJoin.java
-
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O02_leftJoinTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O02_leftJoin.java 
 
 ## KStream-GlobalKTable Join
 
@@ -1128,8 +1056,7 @@ You will get the corresponding AVSC codification:
   ]
 }
 
-17:17:29 $ ll src/main/resources/avro/io/confluent/examples/streams/streamsdsl.stateful.joining.ks_gkt/global-tables-schemas.avsc 
--rw-rw-r-- 1 1489 nov 17 06:24 src/main/resources/avro/io/confluent/examples/streams/streamsdsl.stateful.joining.ks_gkt/global-tables-schemas.avsc
+* []src/main/resources/avro/io/confluent/examples/streams/streamsdsl.stateful.joining.ks_gkt/global-tables-schemas.avsc 
 
 Compile the code skipping tests:
 
@@ -1146,15 +1073,9 @@ drwxrwxr-x 3  4096 nov 17 07:00 ../
 -rw-rw-r-- 1 15327 nov 17 07:00 Order.java
 -rw-rw-r-- 1 15395 nov 17 07:00 Product.java
 
-17:17:22 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_gkt/O01_anyKindOfJoinTest.java 
--rw-rw-r-- 1 7042 nov 16 16:54 src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_gkt/O01_anyKindOfJoinTest.java
-
-
-17:17:37 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_gkt/O01_anyKindOfJoinDriver.java 
--rw-rw-r-- 1 8791 nov 16 17:15 src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_gkt/O01_anyKindOfJoinDriver.java
-
-17:17:52 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_gkt/O01_anyKindOfJoin.java 
--rw-rw-r-- 1 11634 nov 16 16:54 src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_gkt/O01_anyKindOfJoin.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_gkt/O01_anyKindOfJoinTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_gkt/O01_anyKindOfJoinDriver.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_gkt/O01_anyKindOfJoin.java 
 
 ### leftJoin: (KStream, GlobalKTable) → KStream
 
@@ -1225,7 +1146,7 @@ Session window          | Session-based    | Dynamically-sized, non-overlapping,
 
 ### Example: custom time window
 
-08:44:34 $ ll src/test/java/io/confluent/examples/streams/window/
+* []src/test/java/io/confluent/examples/streams/window/
 -rw-rw-r-- 1 15016 oct 30 13:28 CustomWindowTest.java
 -rw-rw-r-- 1  2452 oct 30 13:28 DailyTimeWindows.java
 
@@ -1288,11 +1209,8 @@ RECORD KEY |·|     |     |·|                |·|| |            |·|         |�
 
            
  
-13:38:36 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O01_tumblingWindowTest.java 
--rw-rw-r-- 1 11940 nov 18 13:31 src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O01_tumblingWindowTest.java
-
-10:33:40 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O01_tumblingWindow.java 
--rw-rw-r-- 1 6628 nov 18 13:09 src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O01_tumblingWindow.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O01_tumblingWindowTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O01_tumblingWindow.java 
 
 ### Hopping time windows
  
@@ -1407,15 +1325,9 @@ RECORD KEY |·|                 |             |·|           | | |·|         |�
 
 ----> hop 3
 
-                o o o o o o o o o
 
-13:38:48 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O02_hoppingTimeWindowTest.java 
--rw-rw-r-- 1 11675 nov 18 15:17 src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O02_hoppingTimeWindowTest.java
-
- (6.0.0-post)
-13:40:02 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O02_hoppingTimeWindow.java 
--rw-rw-r-- 1 7004 nov 18 14:58 src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O02_hoppingTimeWindow.java
-
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O02_hoppingTimeWindowTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O02_hoppingTimeWindow.java 
 
 ## Sliding time windows
 
@@ -1431,27 +1343,14 @@ Thus, sliding windows are not aligned to the epoch, but to the data record times
 In contrast to hoping windows, the lower and upper window time interval bounds of sliding windows are both inclusive.
 
 
-20:14:20 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O01_innerJoinTest.java 
--rw-rw-r-- 1 5713 nov 12 17:22 src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O01_innerJoinTest.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O01_innerJoinTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O01_innerJoin.java 
 
-20:14:27 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O01_innerJoin.java 
--rw-rw-r-- 1 6233 nov 12 17:33 src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O01_innerJoin.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O02_leftJoinTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O02_leftJoin.java 
 
-
-
-20:15:15 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O02_leftJoinTest.java 
--rw-rw-r-- 1 5705 nov 12 20:36 src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O02_leftJoinTest.java
-
-20:37:42 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O02_leftJoin.java 
--rw-rw-r-- 1 6388 nov 12 20:36 src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O02_leftJoin.java
-
-
-
-20:41:59 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoinTest.java 
--rw-rw-r-- 1 5689 nov 13 06:52 src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoinTest.java
-
-20:41:51 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoin.java 
--rw-rw-r-- 1 6376 nov 13 06:52 src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoin.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoinTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoin.java 
 
 ## Session windows
 
@@ -1529,12 +1428,8 @@ Session Window 1   |+-+                     +-+               +-+               
                          |+-+|                                     |+-+          +-+|
                          +---+                                     +----------------+
                                                                                
-15:18:09 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O04_sessionWindowTest.java 
--rw-rw-r-- 1 12829 nov 19 08:32 src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O04_sessionWindowTest.java
-
-08:32:30 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O04_sessionWindow.java 
--rw-rw-r-- 1 6641 nov 18 16:55 src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O04_sessionWindow.java
-
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O04_sessionWindowTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O04_sessionWindow.java 
 
 ## Window final results
 
@@ -1623,18 +1518,14 @@ Data records arriving in two streams
 
 
 
-08:32:51 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O05_windowFinalResults_ThresholdReachedTest.java 
--rw-rw-r-- 1 10219 nov 19 11:07 src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O05_windowFinalResults_ThresholdReachedTest.java
-
-10:46:04 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O05_windowFinalResults_ThresholdReached.java 
--rw-rw-r-- 1 7828 nov 19 10:45 src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O05_windowFinalResults_ThresholdReached.java
-
+* []src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O05_windowFinalResults_ThresholdReachedTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O05_windowFinalResults_ThresholdReached.java 
 
 ### Example: custom time window
 
-08:44:34 $ ll src/test/java/io/confluent/examples/streams/window/
--rw-rw-r-- 1 15016 oct 30 13:28 CustomWindowTest.java
--rw-rw-r-- 1  2452 oct 30 13:28 DailyTimeWindows.java
+* []src/test/java/io/confluent/examples/streams/window/
+    - CustomWindowTest.java
+    - DailyTimeWindows.java
 
 In addition to using the windows implementations provided with the Kafka Streams client library, you can extend the Java Windows abstrac
 class to create custom time windows to suit your use cases.
@@ -1703,46 +1594,20 @@ available by default:
     
         filteredStream.process(() -> new EmailMetricThresholdAlert_Processor(), stateStoreName);
    
-14:15:48 $ ll src/test/java/io/confluent/examples/streams/streamdsl/processorapi/process/O01_processStrategy1ImplementProcessorTest.java 
--rw-rw-r-- 1 4078 nov 20 14:40 src/test/java/io/confluent/examples/streams/streamdsl/processorapi/process/O01_processStrategy1ImplementProcessorTest.java
-
-14:16:50 $ ll src/main/java/io/confluent/examples/streams/streamdsl/processorapi/process/O01_processStrategy1_ImplementProcessor.java 
--rw-rw-r-- 1 8333 nov 20 14:40 src/main/java/io/confluent/examples/streams/streamdsl/processorapi/process/O01_processStrategy1_ImplementProcessor.java
-
-14:53:13 $ ll src/main/java/io/confluent/examples/streams/streamdsl/processorapi/process/EmailMetricThresholdAlert_Processor.java 
--rw-rw-r-- 1 3532 nov 20 14:40 src/main/java/io/confluent/examples/streams/streamdsl/processorapi/process/EmailMetricThresholdAlert_Processor.java   
+* []src/test/java/io/confluent/examples/streams/streamdsl/processorapi/process/O01_processStrategy1ImplementProcessorTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/processorapi/process/O01_processStrategy1_ImplementProcessor.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/processorapi/process/EmailMetricThresholdAlert_Processor.java 
 
 2) the second strategy is for the given ProcessorSupplier to implement ConnectedStoreProvider.stores(), which provides
    the StoreBuilders to be automatically added to the Topology and connected to the processor.
 
-
-14:52:42 $ ll src/test/java/io/confluent/examples/streams/streamdsl/processorapi/process/O02_processStrategy2ImplementProcessorSupplierTest.java 
--rw-rw-r-- 1 4134 nov 20 14:41 src/test/java/io/confluent/examples/streams/streamdsl/processorapi/process/O02_processStrategy2ImplementProcessorSupplierTest.java
-
-14:54:23 $ ll src/main/java/io/confluent/examples/streams/streamdsl/processorapi/process/O02_processStrategy2_ImplementProcessorSupplier.java 
--rw-rw-r-- 1 7739 nov 20 14:52 src/main/java/io/confluent/examples/streams/streamdsl/processorapi/process/O02_processStrategy2_ImplementProcessorSupplier.java
-
-
-14:53:36 $ ll src/main/java/io/confluent/examples/streams/streamdsl/processorapi/process/EmailMetricThresholdAlert_ProcessorSupplier.java 
--rw-rw-r-- 1 1306 nov 20 14:51 src/main/java/io/confluent/examples/streams/streamdsl/processorapi/process/EmailMetricThresholdAlert_ProcessorSupplier.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/processorapi/process/O02_processStrategy2ImplementProcessorSupplierTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/processorapi/process/O02_processStrategy2_ImplementProcessorSupplier.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/processorapi/process/EmailMetricThresholdAlert_ProcessorSupplier.java 
 
 These examples have been implemented using the information provided here:
 
 https://docs.confluent.io/current/streams/javadocs/org/apache/kafka/streams/kstream/KStream.html#process-org.apache.kafka.streams.processor.ProcessorSupplier-java.lang.String...-
-
-
-We also have some examples here:
-
-
-tsb-onboarding-otp-verification/src/main/java/com/tsb/onboarding/processor/OtpVerificationProcessor.java:        
-```sbtshell
-    private void process(KStream<String, RestProxyEventRequest> userInputStream,
-                                         GlobalKTable<String, GenericToken> otpTable) {
-    ...
-    }
-
-    this.process(userInputStream, otpTable);
-```
 
 
 ## transform: KStream -> KStream
@@ -1790,34 +1655,30 @@ access to global state stores is available by default:
 1) The first strategy is to manually add the StoreBuilders via Topology.addStateStore(StoreBuilder, String, ...) and
 specify the store names via stateStoreNames so they will be connected to the transformer.
 
-14:54:43 $ ll src/main/java/io/confluent/examples/streams/streamdsl/processorapi/transform/
+* []src/main/java/io/confluent/examples/streams/streamdsl/processorapi/transform/
 
--rw-rw-r-- 1 1815 nov 22 13:45 EmailMetricThresholdAlert_Transformer.java
--rw-rw-r-- 1 8113 nov 22 13:59 O01_transformStrategy1_ImplementTransformer.java
+    - EmailMetricThresholdAlert_Transformer.java
+    - O01_transformStrategy1_ImplementTransformer.java
 
-14:00:44 $ ll src/test/java/io/confluent/examples/streams/streamdsl/processorapi/transform/O01_transformStrategy1ImplementTransformerTest.java 
--rw-rw-r-- 1 4110 nov 22 13:59 src/test/java/io/confluent/examples/streams/streamdsl/processorapi/transform/O01_transformStrategy1ImplementTransformerTest.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/processorapi/transform/O01_transformStrategy1ImplementTransformerTest.java 
 
 
 2) The second strategy is for the given TransformerSupplier to implement ConnectedStoreProvider.stores(), which provides
    the StoreBuilders to be automatically added to the topology and connected to the transformer.
 
+* []src/test/java/io/confluent/examples/streams/streamdsl/processorapi/transform/O02_transformStrategy2ImplementTransformerTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/processorapi/transform/
 
-14:02:16 $ ll src/test/java/io/confluent/examples/streams/streamdsl/processorapi/transform/O02_transformStrategy2ImplementTransformerTest.java 
--rw-rw-r-- 1 4110 nov 22 13:40 src/test/java/io/confluent/examples/streams/streamdsl/processorapi/transform/O02_transformStrategy2ImplementTransformerTest.java
-
-14:54:43 $ ll src/main/java/io/confluent/examples/streams/streamdsl/processorapi/transform/
-
--rw-rw-r-- 1 1815 nov 22 13:45 EmailMetricThresholdAlert_Transformer.java
--rw-rw-r-- 1 1448 nov 22 13:32 EmailMetricThresholdAlert_TransformerSupplier.java
--rw-rw-r-- 1 7612 nov 22 13:42 O02_transformStrategy2_ImplementTransformer.java
+    - EmailMetricThresholdAlert_Transformer.java
+    - EmailMetricThresholdAlert_TransformerSupplier.java
+    - O02_transformStrategy2_ImplementTransformer.java
 
 Also examples here:
 
-14:55:01 $ ll src/test/java/io/confluent/examples/streams/streamdsl/processorapi/transform/
+* []src/test/java/io/confluent/examples/streams/streamdsl/processorapi/transform/
 
--rw-rw-r-- 1 6783 nov 20 15:56 MixAndMatchLambdaIntegrationTest.java
--rw-rw-r-- 1 7633 nov 20 14:20 StreamDSLAndProcessorAPIExampleTest.java
+    - MixAndMatchLambdaIntegrationTest.java
+    - StreamDSLAndProcessorAPIExampleTest.java
 
 ```sbtshell
     private void process(KStream<String, RestProxyEventRequest> userInputStream,
@@ -1847,31 +1708,28 @@ transformValues() is essentially equivalent to adding the ValueTransformer via T
 
 https://docs.confluent.io/platform/current/streams/javadocs/org/apache/kafka/streams/kstream/KStream.html#transformValues-org.apache.kafka.streams.kstream.ValueTransformerSupplier-org.apache.kafka.streams.kstream.Named-java.lang.String...-
 
-14:02:42 $ ll src/test/java/io/confluent/examples/streams/streamdsl/processorapi/transformvalues/
-total 24
--rw-rw-r-- 1 4200 nov 22 17:44 O01_transformValuesStrategy1ImplementTransformerTest.java
--rw-rw-r-- 1 4256 nov 22 18:14 O02_transformValuesStrategy2ImplementTransformerSupplierTest.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/processorapi/transformvalues/
+
+    - O01_transformValuesStrategy1ImplementTransformerTest.java
+    - O02_transformValuesStrategy2ImplementTransformerSupplierTest.java
+
+* []src/main/java/io/confluent/examples/streams/streamdsl/processorapi/transformvalues/
+
+    - O01_transformValuesStrategy1_ImplementTransformer.java
+    - O02_transformValuesStrategy2_ImplementTransformerSupplier.java
+
+* []src/main/java/io/confluent/examples/streams/streamdsl/processorapi/transformvalueswithkey/
+
+    - O01_transformValuesStrategy1_ImplementTransformerWithKey.java
+    - O02_transformValuesStrategy2_ImplementTransformerWithKeySupplier.java
+
+* []src/test/java/io/confluent/examples/streams/streamdsl/processorapi/transformvalueswithkey/
+
+    - O01_transformValuesStrategy1ImplementTransformerWithKeyTest.java
+    - O02_transformValuesStrategy2ImplementTransformerWithKeySupplierTest.java
 
 
-14:00:15 $ ll src/main/java/io/confluent/examples/streams/streamdsl/processorapi/transformvalues/
-total 28
--rw-rw-r-- 1 8570 nov 22 17:49 O01_transformValuesStrategy1_ImplementTransformer.java
--rw-rw-r-- 1 7868 nov 22 18:15 O02_transformValuesStrategy2_ImplementTransformerSupplier.java
-
-
-07:11:48 $ ll src/main/java/io/confluent/examples/streams/streamdsl/processorapi/transformvalueswithkey/
-total 28
--rw-rw-r-- 1 8602 nov 23 07:09 O01_transformValuesStrategy1_ImplementTransformerWithKey.java
--rw-rw-r-- 1 7900 nov 23 07:09 O02_transformValuesStrategy2_ImplementTransformerWithKeySupplier.java
-
-07:07:15 $ ll src/test/java/io/confluent/examples/streams/streamdsl/processorapi/transformvalueswithkey/
-total 24
--rw-rw-r-- 1 4256 nov 23 07:09 O01_transformValuesStrategy1ImplementTransformerWithKeyTest.java
--rw-rw-r-- 1 4312 nov 23 07:09 O02_transformValuesStrategy2ImplementTransformerWithKeySupplierTest.java
-
-
-18:17:46 $ tree src/main/java/io/confluent/examples/streams/streamdsl/processorapi/utils/
-src/main/java/io/confluent/examples/streams/streamdsl/processorapi/utils/
+* []src/main/java/io/confluent/examples/streams/streamdsl/processorapi/utils/
 ├── processors
 │   ├── EmailMetricThresholdAlert_Processor.java
 │   └── EmailMetricThresholdAlert_ProcessorSupplier.java
@@ -1929,19 +1787,13 @@ We would have different records in the output topic depending if we used cached 
 
 * Without caching would be this sequence of records: <A, (1, null)>, <A, (21, 1)>, <A, (321, 21)>
 
-    06:24:56 $ ll src/test/java/io/confluent/examples/streams/streamdsl/cache/
-    -rw-rw-r-- 1  5081 nov 25 06:56 O01_aggregationNotCachedTest.java
-
-    06:57:51 $ ll src/main/java/io/confluent/examples/streams/streamdsl/cache/
-    -rw-rw-r-- 1  7621 nov 25 06:22 O01_aggregationNotCached.java
+    - []src/test/java/io/confluent/examples/streams/streamdsl/cache/O01_aggregationNotCachedTest.java
+    - []src/main/java/io/confluent/examples/streams/streamdsl/cache/O01_aggregationNotCached.java
 
 * With caching, the sequence should be this:          <A, (321, null)>
 
-    06:24:56 $ ll src/test/java/io/confluent/examples/streams/streamdsl/cache/
-    -rw-rw-r-- 1  5151 nov 25 06:24 O02_aggregationCachedTest.java
-
-    06:57:51 $ ll src/main/java/io/confluent/examples/streams/streamdsl/cache/
-    -rw-rw-r-- 1  8415 nov 25 06:57 O02_aggregationCached.java
+    - []src/test/java/io/confluent/examples/streams/streamdsl/cache/
+    - []src/main/java/io/confluent/examples/streams/streamdsl/cache/
 
 The cache size is specified through the cache.max.bytes.buffering parameter, which is a global setting
 per processing topology:
@@ -2022,11 +1874,8 @@ KTable#supress operator.
 
 For example:
 
-06:06:13 $ ll src/test/java/io/confluent/examples/streams/streamdsl/ktableemitrate/O01_windowedByCountWithKtableEmitRateTest.java 
--rw-rw-r-- 1 6066 nov 24 06:07 src/test/java/io/confluent/examples/streams/streamdsl/ktableemitrate/O01_windowedByCountWithKtableEmitRateTest.java
-
-06:03:29 $ ll src/main/java/io/confluent/examples/streams/streamdsl/ktableemitrate/O01_windowedByCountWithKTableEmitRate.java 
--rw-rw-r-- 1 7489 nov 23 07:44 src/main/java/io/confluent/examples/streams/streamdsl/ktableemitrate/O01_windowedByCountWithKTableEmitRate.java
+* []src/test/java/io/confluent/examples/streams/streamdsl/ktableemitrate/O01_windowedByCountWithKtableEmitRateTest.java 
+* []src/main/java/io/confluent/examples/streams/streamdsl/ktableemitrate/O01_windowedByCountWithKTableEmitRate.java 
 
 ```
         KTable<Windowed<String>, Long> timeWindowedCountStream =
@@ -2125,9 +1974,6 @@ task, indeed.
 
 https://kafka-tutorials.confluent.io/dynamic-output-topic/kstreams.html
 
-7:47:56 $ ll src/main/java/io/confluent/examples/streams/streamdsl/fromstreamtotopic/
--rw-rw-r-- 1  7031 nov 28 06:47 O1_UseCustomPartitionerDinamicallyChooseDestTopic.java
-
-18:27:34 $ ll src/test/java/io/confluent/examples/streams/streamdsl/fromstreamtotopic/
--rw-rw-r-- 1  4920 nov 28 06:42 O1_UseCustomPartitionerDinamicallyChosenDestTopicTest.java
+* []src/main/java/io/confluent/examples/streams/streamdsl/fromstreamtotopic/
+* []src/test/java/io/confluent/examples/streams/streamdsl/fromstreamtotopic/
 
