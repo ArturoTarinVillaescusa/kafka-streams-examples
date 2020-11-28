@@ -1,19 +1,19 @@
+# STREAMS DSL
 
 # Creating source streams from Kafka
 
-https://docs.confluent.io/current/streams/developer-guide/dsl-api.html#streams-developer-guide-dsl
                                                      __                      
-## input topic -> KStream:
+### input topic -> KStream:
 
 * src/main/java/io/confluent/examples/streams/streamdsl/stateless/O1_KStreamFromTopic.java 
 * src/test/java/io/confluent/examples/streams/streamdsl/O1_KStreamFromTopicTest.java
 
-## input topic -> KTable:
+### input topic -> KTable:
 
 * src/main/java/io/confluent/examples/streams/streamdsl/stateless/O2_KTableFromTopic.java 
 * src/test/java/io/confluent/examples/streams/streamdsl/O2_KTableFromTopicTest.java 
 
-## input topic -> GlobalKTable:
+### input topic -> GlobalKTable:
 
 * src/test/java/io/confluent/examples/streams/streamdsl/O3_GlobalKTableFromTopicTest.java 
 * src/main/java/io/confluent/examples/streams/streamdsl/stateless/O3_GlobalKTableFromTopic.java 
@@ -21,7 +21,7 @@ https://docs.confluent.io/current/streams/developer-guide/dsl-api.html#streams-d
 # Stateless transformations
 
 
-## Branch: KStream -> KStream[]
+### Branch: KStream -> KStream[]
 
 Branch (or split) a KStream based on the supplied predicates into one or more KStream instances.
 
@@ -35,7 +35,7 @@ Branching is useful, for example, to route records to different downstream topic
 * src/main/java/io/confluent/examples/streams/streamdsl/stateless/O4_branch.java 
 * src/test/java/io/confluent/examples/streams/streamdsl/O4_branchTest.java 
 
-## filter: KStream -> KStream /  KTable -> KTable
+### filter: KStream -> KStream /  KTable -> KTable
 
 Evaluates a boolean function for each element and retains those for which the function returns true.
 
@@ -47,7 +47,7 @@ Evaluates a boolean function for each element and retains those for which the fu
 -rw-rw-r-- 1 4373 nov  3 17:05 src/test/java/io/confluent/examples/streams/streamdsl/O5_filterTest.java
 
 
-## filter: KStream -> KStream /  KTable -> KTable
+### filter: KStream -> KStream /  KTable -> KTable
                                                                                                                                                                     
 Evaluates a boolean function for each element and drops those for which the function returns true. 
 
@@ -59,7 +59,7 @@ Evaluates a boolean function for each element and drops those for which the func
 -rw-rw-r-- 1 6051 nov  3 17:26 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O6_filterNot.java
 
 
-## flatMap: KStream -> KStream
+### flatMap: KStream -> KStream
 
 Takes one record and produces zero, one, or more records. You can modify the record keys and values, including their types.
 
@@ -72,7 +72,7 @@ If possible use flatMapValues instead, which will not cause data re-partitioning
 17:49:57 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O7_flatMap.java 
 -rw-rw-r-- 1 6519 nov  3 17:41 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O7_flatMap.java
 
-## flatMapValues: KStream -> KStream
+### flatMapValues: KStream -> KStream
 
 Takes one record and produces zero, one, or more records, while retaining the key of the original record. You can modify the record values and the value type.
 
@@ -90,7 +90,7 @@ flatMapValues is preferable to flatMap because it will not cause data re-partiti
 >
 > flatMapValues doesn't allow modifying neither the keys or key type
 
-## foreach: KStream -> void / KTable -> void
+### foreach: KStream -> void / KTable -> void
 
 Terminal operation. Performs a stateless action on each record.
 
@@ -107,7 +107,7 @@ which means they will typically not benefit from Kafka’s processing guarantees
 07:02:02 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/OO9_foreach.java 
 -rw-rw-r-- 1 6242 nov  4 07:00 src/main/java/io/confluent/examples/streams/streamdsl/stateless/OO9_foreach.java
 
-## groupByKey: KStream -> KGroupedStream
+### groupByKey: KStream -> KGroupedStream
 
 It groups the records by the existing key. Grouping is a pre-requisite for aggregate a stream or a table. Grouping ensures
 that data is properly partitioned ("keyed") for subsequent operations.
@@ -132,7 +132,7 @@ to modify the keys or the key type, so if you need to do it, use groupBy instead
 07:01:15 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O10_groupByKeyTest.java 
 -rw-rw-r-- 1 4185 nov  4 10:19 src/test/java/io/confluent/examples/streams/streamdsl/O10_groupByKeyTest.java
 
-## groupBy: KStream -> KGroupedStream / KTable -> KGroupedTable
+### groupBy: KStream -> KGroupedStream / KTable -> KGroupedTable
 
 Groups the records by a new key, which may of a different key type. When grouping a table you may also specify a new value and value type.
 
@@ -164,7 +164,7 @@ if required.
 
 >groupByKey doesn't allow modifying neither the keys or key type
 
-## cogroup: KGroupedStream -> CogroupedKStream / CogroupedKStream → CogroupedKStream
+### cogroup: KGroupedStream -> CogroupedKStream / CogroupedKStream → CogroupedKStream
 
 Cogrouping enables aggregating multiple input streams in a single operation. The different and already aggregated
 input streams must have the same key type and may have different value types.
@@ -189,7 +189,7 @@ marked for repartitioning.
 12:39:23 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O12_cogroupTest.java 
 -rw-rw-r-- 1 4962 nov  4 16:29 src/test/java/io/confluent/examples/streams/streamdsl/O12_cogroupTest.java
 
-## Map: KStream -> KStream
+### Map: KStream -> KStream
 
 Takes one record and produces one record. You can modify keys, values and their types too.
 
@@ -204,7 +204,7 @@ data re-partitioning.
 16:53:33 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O13_map.java 
 -rw-rw-r-- 1 6530 nov  5 06:42 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O13_map.java
 
-## mapValues: KStream -> KStream / KTable -> KTable
+### mapValues: KStream -> KStream / KTable -> KTable
 
 Takes one record and produces one record while retaining the key of the original record.
 
@@ -226,7 +226,7 @@ of ValueMapper
 >
 >mapValues doesn't allow modifying neither the keys or key type
 
-## merge: KStream -> KStream
+### merge: KStream -> KStream
 
 Merges records of two streams into one larger stream. 
 
@@ -239,7 +239,7 @@ within each input stream though, i.e. records within the same input are processe
 07:11:19 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O15_mergeTest.java 
 -rw-rw-r-- 1 4164 nov  5 08:10 src/test/java/io/confluent/examples/streams/streamdsl/O15_mergeTest.java
 
-## peek: KStream -> KStream
+### peek: KStream -> KStream
 
 Performs a stateless action on each record and returns unchanged stream.
 
@@ -259,7 +259,7 @@ with Kafka, which means they will typically not benefit from Kafka's processing 
 08:10:26 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O16_peek.java 
 -rw-rw-r-- 1 6051 nov  5 11:22 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O16_peek.java
 
-## print: KStream -> void
+### print: KStream -> void
 
 Terminal operation. Prints the records to System.out or into a file.
 
@@ -289,7 +289,7 @@ Calling print(Printed.toSysOut()) is the same as calling foreach((key, value) ->
 [KSTREAM-MERGE-0000000002]: [B@8e0379d, you?
 [KSTREAM-MERGE-0000000002]: [B@341b80b2, thank you.
 
-## repartition: KStream -> KStream
+### repartition: KStream -> KStream
 
 Manually triggers re-partitioning of the stream with the specified number of partitions.
 
@@ -311,7 +311,7 @@ like transform(), that don't trigger auto re-partitioning when a key-changing op
 13:12:19 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateless/O18_repartitionTest.java 
 -rw-rw-r-- 1 3589 nov  5 13:39 src/test/java/io/confluent/examples/streams/streamdsl/stateless/O18_repartitionTest.java
 
-## selectKey: KStream -> KStream
+### selectKey: KStream -> KStream
 
 Assigns a new key and possibly a new key type also to each record of a stream.
 
@@ -394,7 +394,7 @@ You can perform aggregations on windowed or non-windowed data.
 >Do not use class member variables because data can potentially get lost in case of failure.
 
 
-## aggregate: KGroupedStream -> KTable / CogroupedKStream -> KTable / KGroupedTable -> KTable
+### aggregate: KGroupedStream -> KTable / CogroupedKStream -> KTable / KGroupedTable -> KTable
 
 **R|o|l|l|i|n|g| |a|g|g|r|e|g|a|t|i|o|n**
 
@@ -459,7 +459,7 @@ Detailed behavior of KGroupedTable:
 14:08:23 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O02_aggregateStream.java 
 -rw-rw-r-- 1 7535 nov  6 14:07 src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O02_aggregateStream.java
 
-## windowedBy (aggregate windowed): 
+### windowedBy (aggregate windowed): 
     KGroupedStream → TimeWindowedStream; TimeWindowedStream → KTable
     KGroupedStream → SessionWindowedStream; SessionWindowedStream → KTable
     CogroupedKStream → TimeWindowedCogroupedStream; TimeWindowedCogroupedStream → KTable
@@ -502,7 +502,7 @@ Detailed behavior:
 14:10:41 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O04_windowedByTest.java 
 -rw-rw-r-- 1 6847 nov  7 14:47 src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O04_windowedByTest.java
 
-## count: KGroupedStream → KTable / KGroupedTable → KTable
+### count: KGroupedStream → KTable / KGroupedTable → KTable
 
 Rolling aggregation. Counts the number of records by grouped key.
 
@@ -538,7 +538,7 @@ kstreams-from-topic-KTABLE-AGGREGATE-STATE-STORE-0000000004-repartition.
 A serializer (key: org.apache.kafka.common.serialization.StringSerializer / value:
 org.apache.kafka.streams.kstream.internals.ChangedSerializer) is not compatible to the actual key or value type 
 
-## count windowed: 
+### count windowed: 
 
     KGroupedStream → TimeWindowedStream; TimeWindowedStream → KTable
     KGroupedStream → SessionWindowedStream; SessionWindowedStream → KTable
@@ -554,7 +554,7 @@ The windowed count turns a TimeWindowedKStream<K, V> or a SessionWindowedKStream
 21:40:17 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O07_windowedByCount.java 
 -rw-rw-r-- 1 7022 nov  8 07:19 src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O07_windowedByCount.java
 
-## reduce: KGroupedStream → KTable / KGroupedTable → KTable
+### reduce: KGroupedStream → KTable / KGroupedTable → KTable
 
 Rolling aggregation. Combines the values of non-windowed records by the grouped key.
 
@@ -605,7 +605,7 @@ Detailed behavior of KGroupedTable:
 08:22:13 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O09_reduceTableTest.java 
 -rw-rw-r-- 1 4025 nov  8 08:20 src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O09_reduceTableTest.java
 
-## reduce (windowed):
+### reduce (windowed):
 
     KGroupedStream → TimeWindowedStream; TimeWindowedStream → KTable
     KGroupedStream → SessionWindowedStream; SessionWindowedStream → KTable
@@ -629,7 +629,7 @@ Detailed behavior:
 * Whenever a record with non-null value is received for a given window, the adder is called.
 
 
-# Stateful Joining operations
+## Stateful Joining operations
 
 Streams and tables can also be joined. Many streaming applications in practice are coded as streaming joins.
 
@@ -978,10 +978,10 @@ Records arriving to the left stream will only trigger the KS-KT if there are mat
 I.e. if you do an insert in this order, you will get empty output join KSTream:
 
 
-Timestamp    KSTream record      KTable record      KSTream outout join       KSTream outout leftJoin       
-------------------------------------------------------------------------------------------------------
-000000001    (1, A)
-000000002                        (1, a)             <empty output>            <empty output>
+Timestamp |  KSTream record      KTable record      KSTream outout join       KSTream outout leftJoin       
+----------|-------------------------------------------------------------------------------------------
+000000001 |  (1, A)
+000000002 |                      (1, a)             <empty output>            <empty output>
 
 In your test this can be seen like like this. If you do this input ...:
 
@@ -1008,10 +1008,10 @@ You can solve this problem in the test just changing the order of the pipe calls
 
 The test will then pass. You will see this happening after the change:
 
-Timestamp    KSTream record      KTable record      KSTream outout join       KSTream outout leftJoin       
-------------------------------------------------------------------------------------------------------
-000000001                        (1, a)
-000000002    (1, A)                                 Left=A, Right=a           Left=A, Right=a
+Timestamp  | KSTream record      KTable record      KSTream outout join       KSTream outout leftJoin       
+-----------|------------------------------------------------------------------------------------------
+000000001  |                     (1, a)
+000000002  | (1, A)                                 Left=A, Right=a           Left=A, Right=a
 
 ### Inner Join: (KStream, KTable) → KStream
 
