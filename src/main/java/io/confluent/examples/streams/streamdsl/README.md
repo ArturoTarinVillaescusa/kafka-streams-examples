@@ -1135,11 +1135,11 @@ Detailed behavior:
      
 **USEFUL HELPER: Avro Schema From JSON Generator**
 
- +-+-+-+-+ +-+-+-+-+-+-+ +-+-+-+-+ +-+-+-+-+ +-+-+-+-+-+-+-+-+-+
- |A|v|r|o| |S|c|h|e|m|a| |F|r|o|m| |J|S|O|N| |G|e|n|e|r|a|t|o|r|
- +-+-+-+-+ +-+-+-+-+-+-+ +-+-+-+-+ +-+-+-+-+ +-+-+-+-+-+-+-+-+-+
+> |A|v|r|o| |S|c|h|e|m|a| |F|r|o|m| |J|S|O|N| |G|e|n|e|r|a|t|o|r|
+>
+> https://toolslick.com/generation/metadata/avro-schema-from-json
 
-https://toolslick.com/generation/metadata/avro-schema-from-json
+If you write this in the box
 
 {
     "firstname": "aaa",
@@ -1150,7 +1150,9 @@ https://toolslick.com/generation/metadata/avro-schema-from-json
     "nationality": "spanish"
 }
 
-Returns this:
+You will get the corresponding AVSC codification:
+
+**Note: change the "name" and the "namespace" accordingly in your code**
 
 {
   "name": "Customer",
@@ -1270,18 +1272,15 @@ changed via Materialized#WithRetention(...)
 
 The DSL support these types of windows:
 
-----------------------------------------------------------------------------------------------------------------------
 Window name 	        | Behavior 	       |  Short description                                                       
-----------------------------------------------------------------------------------------------------------------------
+------------------------|------------------|--------------------------------------------------------------------------
 Tumbling time window    | Time-based 	   | Fixed-size, non-overlapping, gap less window                             
 Hoping time window      | Time-based 	   | Fixed-size, overlapping windows                                          
 Sliging time window     | Time-based 	   | Fixed-size, overlapping windows that work in differences between record  
                         |                  | timestamps                                                               
 Session window          | Session-based    | Dynamically-sized, non-overlapping, data-driven windows                  
-----------------------------------------------------------------------------------------------------------------------
 
 
-  _                                                                                              
 ### Example: custom time window
 
 08:44:34 $ ll src/test/java/io/confluent/examples/streams/window/
