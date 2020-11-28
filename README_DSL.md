@@ -6,20 +6,20 @@
 
 ### input topic -> KStream:
 
-* [O1_KStreamFromTopic.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O1_KStreamFromTopic.java)
-* [O1_KStreamFromTopicTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O1_KStreamFromTopicTest.java)
+* [stateless/O1_KStreamFromTopic.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O1_KStreamFromTopic.java)
+* [stateless/O1_KStreamFromTopicTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O1_KStreamFromTopicTest.java)
 
 ### input topic -> KTable:
 
-* src/main/java/io/confluent/examples/streams/streamdsl/stateless/O2_KTableFromTopic.java 
-* src/test/java/io/confluent/examples/streams/streamdsl/stateless/O2_KTableFromTopicTest.java 
+* [stateless/O2_KTableFromTopic.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O2_KTableFromTopic.java) 
+* [stateless/O2_KTableFromTopicTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O2_KTableFromTopicTest.java) 
 
 ### input topic -> GlobalKTable:
 
-* src/test/java/io/confluent/examples/streams/streamdsl/stateless/O3_GlobalKTableFromTopicTest.java 
-* src/main/java/io/confluent/examples/streams/streamdsl/stateless/O3_GlobalKTableFromTopic.java 
+* [stateless/O3_GlobalKTableFromTopic.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O3_GlobalKTableFromTopic.java) 
+* [stateless/O3_GlobalKTableFromTopicTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O3_GlobalKTableFromTopicTest.java) 
 
-### Branch: KStream -> KStream[]
+### branch: KStream -> KStream[]
 
 Branch (or split) a KStream based on the supplied predicates into one or more KStream instances.
 
@@ -29,20 +29,16 @@ the the record is dropped.
 
 Branching is useful, for example, to route records to different downstream topics.
 
-
-* src/main/java/io/confluent/examples/streams/streamdsl/stateless/O4_branch.java 
-* src/test/java/io/confluent/examples/streams/streamdsl/O4_branchTest.java 
+* [stateless/O4_branch.java](src/main/java/io/confluent/examples/streams/streamdsl/stateless/O4_branch.java) 
+* [stateless/O4_branchTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateless/O4_branchTest.java) 
 
 ### filter: KStream -> KStream /  KTable -> KTable
 
 Evaluates a boolean function for each element and retains those for which the function returns true.
 
 
-16:21:37 $ ll src/main/java/io/confluent/examples/streams/streamdsl/stateless/O5_filter.java 
--rw-rw-r-- 1 6276 nov  3 17:08 src/main/java/io/confluent/examples/streams/streamdsl/stateless/O5_filter.java
-
-17:09:56 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateless/O5_filterTest.java 
--rw-rw-r-- 1 4373 nov  3 17:05 src/test/java/io/confluent/examples/streams/streamdsl/O5_filterTest.java
+src/main/java/io/confluent/examples/streams/streamdsl/stateless/O5_filter.java 
+src/test/java/io/confluent/examples/streams/streamdsl/stateless/O5_filterTest.java 
 
 
 ### filter: KStream -> KStream /  KTable -> KTable
