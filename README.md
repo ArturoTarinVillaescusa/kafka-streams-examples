@@ -326,6 +326,11 @@ $ mvn clean package
 > ```shell
 > $ mvn -DskipTests=true clean package
 > ```
+> Additionally, if you need to overlook the check-style-code feature, you can add this modifier too:
+>
+>```
+> $ mvn -DskipTests=true -Dcheckstyle.skip clean package
+>```
 
 You can now run the application examples as follows:
 
