@@ -83,7 +83,7 @@ Table of contents
 
 # How to run the examples:
 
-Create a standalone jar ("fat jar") of the [application examples](#examples-apps):
+Create a standalone jar ("fat jar") of the project:
 
 ```shell
 # Create a standalone jar ("fat jar")
