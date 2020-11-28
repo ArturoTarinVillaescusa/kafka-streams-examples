@@ -85,13 +85,10 @@ flatMapValues is preferable to flatMap because it will not cause data re-partiti
 06:49:22 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O8_flatMapValuesTest.java 
 -rw-rw-r-- 1 3754 nov  4 06:47 src/test/java/io/confluent/examples/streams/streamdsl/O8_flatMapValuesTest.java
 
-
- +-+-+-+-+-+-+-+ +-+-+-+-+-+-+ +-+-+-+ +-+-+ +-+-+-+-+-+-+ +-+-+-+ +-+-+-+-+ +-+-+-+ +-+-+-+ +-+-+-+-+
- |f|l|a|t|M|a|p| |a|l|l|o|w|s| |y|o|u| |t|o| |m|o|d|i|f|y| |t|h|e| |k|e|y|s| |a|n|d| |k|e|y| |t|y|p|e|
- +-+-+-+-+-+-+-+ +-+-+-+-+-+-+ +-+-+-+ +-+-+ +-+-+-+-+-+-+ +-+-+-+ +-+-+-+-+ +-+-+-+ +-+-+-+ +-+-+-+-+
- +-+-+-+-+-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+ +-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+ +-+-+-+ +-+-+-+-+ +-+-+ +-+-+-+ +-+-+-+-+
- |f|l|a|t|M|a|p|V|a|l|u|e|s| |d|o|e|s|n|'|t| |a|l|l|o|w| |m|o|d|i|f|y|i|n|g| |n|e|i|t|h|e|r| |t|h|e| |k|e|y|s| |o|r| |k|e|y| |t|y|p|e|
- +-+-+-+-+-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+ +-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+ +-+-+-+ +-+-+-+-+ +-+-+ +-+-+-+ +-+-+-+-+
+**Note:**
+> flatMap allows you to modify the keys and key type
+>
+> flatMapValues doesn't allow modifying neither the keys or key type
 
 ## foreach: KStream -> void / KTable -> void
 
@@ -118,12 +115,13 @@ that data is properly partitioned ("keyed") for subsequent operations.
 When to set explicit SerDes? Variants of groupByKey exist to override the default SerDes of your application, which you MUST DO
 if the key and/or the value types of the resulting KGroupedStream do not match the default SerDes.
 
-**NOTE:** grouping vs windowing
-
-windowing -> lets you control of how "sub-group" the grouped records of the same key into so called "windows" for stateful
+**NOTE:** 
+>grouping vs windowing
+>
+>windowing -> lets you control of how "sub-group" the grouped records of the same key into so called "windows" for stateful
 operations such as windowed aggregations or windowed joins.
-
-groupByKey causes data re-partitioning if and only if the stream was previously marked for re-partitioning. groupByKey is
+>
+>groupByKey causes data re-partitioning if and only if the stream was previously marked for re-partitioning. groupByKey is
 preferable to groupBy because it re-partitions data only if it was already marked to do so. However groupByKey doesn't allow you
 to modify the keys or the key type, so if you need to do it, use groupBy instead, which allows this action.
 
@@ -147,11 +145,10 @@ When to set explicit SerDes? Variants of groupBy exists to override the configur
 if the key and/or value types of the resulting KGroupedStream or KGroupedTable do not match the configured default SerDes.
 
 **NOTE:**
-
-grouping vs windowing -> A related operation is windowing, which lets you control how to "sub-group" the grouped records of the same
+>grouping vs windowing -> A related operation is windowing, which lets you control how to "sub-group" the grouped records of the same
 key into so-called windows for stateful operations such as windowed aggregations or windowed joins.
-
-groupBy always causes data re-partitioning. If you don't need to modify the key or key type use groupByKey, which re-partition data only
+>
+>groupBy always causes data re-partitioning. If you don't need to modify the key or key type use groupByKey, which re-partition data only
 if required.
 
 
@@ -162,13 +159,10 @@ if required.
 10:25:01 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O11_groupByTest.java 
 -rw-rw-r-- 1 4409 nov  4 11:33 src/test/java/io/confluent/examples/streams/streamdsl/O11_groupByTest.java
 
+**Note:**
+>groupBy allows you to modify the keys and key type
 
- +-+-+-+-+-+-+-+ +-+-+-+-+-+-+ +-+-+-+ +-+-+ +-+-+-+-+-+-+ +-+-+-+ +-+-+-+-+ +-+-+-+ +-+-+-+ +-+-+-+-+
- |g|r|o|u|p|B|y| |a|l|l|o|w|s| |y|o|u| |t|o| |m|o|d|i|f|y| |t|h|e| |k|e|y|s| |a|n|d| |k|e|y| |t|y|p|e|
- +-+-+-+-+-+-+-+ +-+-+-+-+-+-+ +-+-+-+ +-+-+ +-+-+-+-+-+-+ +-+-+-+ +-+-+-+-+ +-+-+-+ +-+-+-+ +-+-+-+-+
- +-+-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+ +-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+ +-+-+-+ +-+-+-+-+ +-+-+ +-+-+-+ +-+-+-+-+
- |g|r|o|u|p|B|y|K|e|y| |d|o|e|s|n|'|t| |a|l|l|o|w| |m|o|d|i|f|y|i|n|g| |n|e|i|t|h|e|r| |t|h|e| |k|e|y|s| |o|r| |k|e|y| |t|y|p|e|
- +-+-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+ +-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+ +-+-+-+ +-+-+-+-+ +-+-+ +-+-+-+ +-+-+-+-+
+>groupByKey doesn't allow modifying neither the keys or key type
 
 ## cogroup: KGroupedStream -> CogroupedKStream / CogroupedKStream → CogroupedKStream
 
@@ -227,12 +221,10 @@ of ValueMapper
 06:43:27 $ ll src/test/java/io/confluent/examples/streams/streamdsl/O14_mapValuesTest.java 
 -rw-rw-r-- 1 3934 nov  5 07:11 src/test/java/io/confluent/examples/streams/streamdsl/O14_mapValuesTest.java
 
- +-+-+-+ +-+-+-+-+-+-+ +-+-+-+ +-+-+ +-+-+-+-+-+-+ +-+-+-+ +-+-+-+-+ +-+-+-+ +-+-+-+ +-+-+-+-+
- |m|a|p| |a|l|l|o|w|s| |y|o|u| |t|o| |m|o|d|i|f|y| |t|h|e| |k|e|y|s| |a|n|d| |k|e|y| |t|y|p|e|
- +-+-+-+ +-+-+-+-+-+-+ +-+-+-+ +-+-+ +-+-+-+-+-+-+ +-+-+-+ +-+-+-+-+ +-+-+-+ +-+-+-+ +-+-+-+-+
- +-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+ +-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+ +-+-+-+ +-+-+-+-+ +-+-+ +-+-+-+ +-+-+-+-+
- |m|a|p|V|a|l|u|e|s| |d|o|e|s|n|'|t| |a|l|l|o|w| |m|o|d|i|f|y|i|n|g| |n|e|i|t|h|e|r| |t|h|e| |k|e|y|s| |o|r| |k|e|y| |t|y|p|e|
- +-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+ +-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+ +-+-+-+ +-+-+-+-+ +-+-+ +-+-+-+ +-+-+-+-+
+**Note:**
+>map allows you to modify the keys and key type
+>
+>mapValues doesn't allow modifying neither the keys or key type
 
 ## merge: KStream -> KStream
 
@@ -393,22 +385,18 @@ Aggregations are key-based operations, which means that they always operate over
 
 You can perform aggregations on windowed or non-windowed data.
 
- +-+-+-+-+-+-+-+-+-+
- |I|M|P|O|R|T|A|N|T|
- +-+-+-+-+-+-+-+-+-+
+**IMPORTANT NOTE**
 
-To support fault tolerance and avoid undesirable behavior, the initializer and aggregator must be stateless.
+>To support fault tolerance and avoid undesirable behavior, the initializer and aggregator must be stateless.
+>
+>The aggregation results should be passed in the return value of the initializer and aggregator.
 
-The aggregation results should be passed in the return value of the initializer and aggregator.
-
-Do not use class member variables because data can potentially get lost in case of failure.
+>Do not use class member variables because data can potentially get lost in case of failure.
 
 
 ## aggregate: KGroupedStream -> KTable / CogroupedKStream -> KTable / KGroupedTable -> KTable
 
- +-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+-+-+-+
- |R|o|l|l|i|n|g| |a|g|g|r|e|g|a|t|i|o|n|.|
- +-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+-+-+-+
+**R|o|l|l|i|n|g| |a|g|g|r|e|g|a|t|i|o|n**
 
 aggregates the values of non-windowed records by the grouped key.
 
@@ -478,9 +466,7 @@ Detailed behavior of KGroupedTable:
     CogroupedKStream → SessionWindowedCogroupedStream; SessionWindowedCogroupedStream → KTable
 
 
- +-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+-+-+-+
- |W|i|n|d|o|w|e|d| |a|g|g|r|e|g|a|t|i|o|n|.|
- +-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+-+-+-+
+**W|i|n|d|o|w|e|d| |a|g|g|r|e|g|a|t|i|o|n**
  
 aggregates the values of records, per window, by the grouped key.
 
@@ -619,15 +605,6 @@ Detailed behavior of KGroupedTable:
 08:22:13 $ ll src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O09_reduceTableTest.java 
 -rw-rw-r-- 1 4025 nov  8 08:20 src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O09_reduceTableTest.java
 
-
-reduce KTable throws an error:
-
-org.apache.kafka.streams.errors.StreamsException: ClassCastException while producing data to topic
-kstreams-from-topic-KTABLE-AGGREGATE-STATE-STORE-0000000004-repartition.
-A serializer (key: org.apache.kafka.common.serialization.StringSerializer / value:
-org.apache.kafka.streams.kstream.internals.ChangedSerializer) is not compatible to the actual key or value type 
-
-
 ## reduce (windowed):
 
     KGroupedStream → TimeWindowedStream; TimeWindowedStream → KTable
@@ -674,15 +651,13 @@ databases when doing such streaming joins.
 
 The following join operations are supported:
 
-----------------------------------------------------------------------------------------------------------------------------
 Join operands 	        | Type 	       |  (INNER) JOIN  | LEFT JOIN 	| OUTER JOIN 	| Demo application
-----------------------------------------------------------------------------------------------------------------------------
+------------------------|--------------|----------------|---------------|---------------|-----------------------------------
 KStream-to-KStream 	    | Windowed 	   |  Supported 	| Supported 	| Supported 	| StreamToStreamJoinIntegrationTest
 KTable-to-KTable 	    | Non-windowed |  Supported 	| Supported 	| Supported 	| TableToTableJoinIntegrationTest
 KStream-to-KTable 	    | Non-windowed |  Supported 	| Supported 	| Not Supported | StreamToTableJoinIntegrationTest
 KStream-to-GlobalKTable | Non-windowed |  Supported 	| Supported 	| Not Supported | GlobalKTablesExample
 KTable-to-GlobalKTable  | N/A 	       |  Not Supported | Not Supported | Not Supported | N/A
-----------------------------------------------------------------------------------------------------------------------------
 
 ## Running the GlobalKTablesExample.java:
 
@@ -906,6 +881,7 @@ The join result is a new KTable that represents the changelog stream of the join
 
 Join output records are effectively created as follows, leveraging the user-supplied ValueJoiner:
 
+```sbtshell
 KeyValue<K, LV> leftRecord = ...;
 KeyValue<K, RV> rightRecord = ...;
 ValueJoiner<LV, RV, JV> joiner = ...;
@@ -914,7 +890,7 @@ KeyValue<K, JV> joinOutputRecord = KeyValue.pair(
     leftRecord.key, // By definition, leftRecord.key == rightRecord.key
     joiner.apply(leftRecord.value, rightRecord.value)
 );
-
+```
 
 ### Inner Join: (KTable, KTable) → KTable
 
