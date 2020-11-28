@@ -1175,39 +1175,8 @@ For example, tumbling window with a size of 5000ms have predictable window bound
 
 Data records arriving in two streams                                                                 
                                                                                                                          
-                    +-+  +-+      +-+  +-+  +-+   +-+         +-+   +-+   +-+   +-+               +-+   +-+   +-+   +-+   
- STREAM 1 --->      |X|  |·|      |X|  |X|  |·|   |X|         |·|   |X|   |·|   |X|               |·|   |X|   |X|   |·|   
-                    +-+  +-+      +-+  +-+  +-+   +-+         +-+   +-+   +-+   +-+               +-+   +-+   +-+   +-+   
-                                       +-+              +-+         +-+               +-+               +-+               +-+
- STREAM 2 --->                         |X|              |X|         |X|               |·|               |X|               |·|
-                                       +-+              +-+         +-+               +-+               +-+               +-+
-                  0                             5                             10                            15   
-                  |                             |                             |                             |    
-           -------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|------->
-                  |                             |                             |                             |    
+![A 5 MINUTE TUMBLING WINDOW](images/a-5-min-tumbling-window.png)
 
-Windows are created per record key
-                    
-                   +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-                   |+-+           +-+  +-+     | |+-+   +-+         +-+      | |+-+                     +-+| |+-+  
- RECORD KEY        ||X|           |X|  |X|     | ||X|   |X|         |X|      | ||X|                     |X|| ||X|  
-    +-+            |+-+           +-+  +-+     | |+-+   +-+         +-+      | |+-+                     +-+| |+-+  
-    |X|            |                   +-+     | |                  +-+      | |                        +-+| |     
-    +-+            |                   |X|     | |                  |X|      | |                        |X|| |     
-                   |                   +-+     | |                  +-+      | |                        +-+| |     
-                   |                           | |                           | |                           | | 
-                   |  0-5 min, key X, count 4  | | 5-10 min, key X, count 4  | | 10-15 min, key X, count 3 | |
-                   +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-                           
-                   +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-           +-+     |     +-+                +-+| |            +-+         +-+| |    +-+           +-+      | |      +-+   +-+ 
-RECORD KEY |·|     |     |·|                |·|| |            |·|         |·|| |    |·|           |·|      | |      |·|   |·| 
-           +-+     |     +-+                +-+| |            +-+         +-+| |    +-+           +-+      | |      +-+   +-+ 
-                   |                           | |                           | |                           | | 
-                   |  0-5 min, key ·, count 2  | | 5-10 min, key ·, count 2  | | 10-15 min, key ·, count 2 | |
-                   +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-
-           
  
 * [stateful/windowing/O01_tumblingWindowTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O01_tumblingWindowTest.java) 
 * [stateful/windowing/O01_tumblingWindow.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O01_tumblingWindow.java) 
@@ -1241,89 +1210,14 @@ For example, hopping windows with a size of 5000ms and an advance interval, i.e.
 **A 5 MINUTE HOPING WINDOW WITH A 1 MINUTE "HOP"**
 
 Data records arriving in two streams                                                                 
+
+![A 5 MINUTE HOPING WINDOW WITH A 1 MINUTE "HOP"](images/a-5-min-hoping-window.png)
                                                                                                                          
-                    +-+  +-+      +-+  +-+  +-+   +-+         +-+   +-+   +-+   +-+               +-+   +-+   +-+   +-+   
- STREAM 1 --->      |X|  |·|      |X|  |X|  |·|   |X|         |·|   |X|   |·|   |X|               |·|   |X|   |X|   |·|   
-                    +-+  +-+      +-+  +-+  +-+   +-+         +-+   +-+   +-+   +-+               +-+   +-+   +-+   +-+   
-                                       +-+              +-+         +-+               +-+               +-+               +-+
- STREAM 2 --->                         |X|              |X|         |X|               |·|               |X|               |·|
-                                       +-+              +-+         +-+               +-+               +-+               +-+
-                  0                             5                             10                            15   
-                  |                             |                             |                             |    
-           -------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|------->
-                  |                             |                             |                             |    
+![hop0](images/a-5-min-hoping-window-hop-0.png)
 
-Hoping windows are created per record key
+![hop1](images/a-5-min-hoping-window-hop-1.png)
 
-
-----> hop 0        +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-                   |+-+           +-+  +-+     | |+-+   +-+         +-+      | |+-+                     +-+| |+-+  
- RECORD KEY        ||X|           |X|  |X|     | ||X|   |X|         |X|      | ||X|                     |X|| ||X|  
-    +-+            |+-+           +-+  +-+     | |+-+   +-+         +-+      | |+-+                     +-+| |+-+  
-    |X|            |                   +-+     | |                  +-+      | |                        +-+| |     
-    +-+            |                   |X|     | |                  |X|      | |                        |X|| |     
-                   |                   +-+     | |                  +-+      | |                        +-+| |     
-                   |                           | |                           | |                           | | 
-                   |  0-5 min, key X, count 4  | | 5-10 min, key X, count 4  | | 10-15 min, key X, count 3 | |
-                   +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-                           
-                   +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-           +-+     |     +-+                +-+| |            +-+         +-+| |    +-+           +-+      | |      +-+   +-+ 
-RECORD KEY |·|     |     |·|                |·|| |            |·|         |·|| |    |·|           |·|      | |      |·|   |·| 
-           +-+     |     +-+                +-+| |            +-+         +-+| |    +-+           +-+      | |      +-+   +-+ 
-                   |                           | |                           | |                           | | 
-                   |  0-5 min, key ·, count 2  | | 5-10 min, key ·, count 2  | | 10-15 min, key ·, count 2 | |
-                   +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-
-----> hop 1
-                  0                             5                             10                            15   
-                  |                             |                             |                             |    
-           -------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|------->
-                  |                             |                             |                             |    
-                         +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-                         |        +-+  +-+        +-+| |+-+         +-+         +-+| |                  +-+   +-+| |
- RECORD KEY              |        |X|  |X|        |X|| ||X|         |X|         |X|| |                  |X|   |X|| |
-    +-+                  |        +-+  +-+        +-+| |+-+         +-+         +-+| |                  +-+   +-+| |
-    |X|                  |             +-+           | |            +-+            | |                  +-+      | |
-    +-+                  |             |X|           | |            |X|            | |                  |X|      | |
-                         |             +-+           | |            +-+            | |                  +-+      | |
-                         |                           | |                           | |                           | | 
-                         |1+(0-5) min, key X, count 4| |1+(5-10) min, key X,count 4| |1+(10-15) min,key X,count 3| |
-                         +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-                           
-                         +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-           +-+           |+-+                +-+     | |       +-+         +-+     | |+-+           +-+          | | +-+   +-+ 
-RECORD KEY |·|           ||·|                |·|     | |       |·|         |·|     | ||·|           |·|          | | |·|   |·| 
-           +-+           |+-+                +-+     | |       +-+         +-+     | |+-+           +-+          | | +-+   +-+ 
-                         |                           | |                           | |                           | | 
-                         |1+(0-5) min, key ·, count 2| |1+(5-10) min, key ·,count 2| |1+(10-15) min,key ·,count 2| |
-                         +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-
-----> hop 2
-                  0                             5                             10                            15   
-                  |                             |                             |                             |    
-           -------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|------->
-                  |                             |                             |                             |    
-                               +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-                               | +-+  +-+        +-+   +-+ | |     +-+         +-+       | |           +-+   +-+       | |
- RECORD KEY                    | |X|  |X|        |X|   |X| | |     |X|         |X|       | |           |X|   |X|       | |
-    +-+                        | +-+  +-+        +-+   +-+ | |     +-+         +-+       | |           +-+   +-+       | |
-    |X|                        |      +-+                  | |     +-+                   | |           +-+             | |
-    +-+                        |      |X|                  | |     |X|                   | |           |X|             | |
-                               |      +-+                  | |     +-+                   | |           +-+             | |
-                               |                           | |                           | |                           | |
-                               |2+(0-5) min, key X, count 4| |2+(5-10) min, key X,count 4| |2+(10-15) min,key X,count 3| |
-                               +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-                             
-                               +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-           +-+                 |             +-+           | | +-+         +-+        +-+| |        +-+             +-+| | +-+ 
-RECORD KEY |·|                 |             |·|           | | |·|         |·|        |·|| |        |·|             |·|| | |·| 
-           +-+                 |             +-+           | | +-+         +-+        +-+| |        +-+             +-+| | +-+ 
-                               |                           | |                           | |                           | | 
-                               |2+(0-5) min, key ·, count 2| |2+(5-10) min, key ·,count 2| |2+(10-15) min,key ·,count 2| |
-                               +---------------------------+ +---------------------------+ +---------------------------+ +-----------
-
-----> hop 3
+![hop0](images/a-5-min-hoping-window-hop-n.png)
 
 
 * [stateful/windowing/O02_hoppingTimeWindowTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O02_hoppingTimeWindowTest.java) 
@@ -1378,55 +1272,15 @@ to more complex metrics, e.g. customer conversion funnel and event flows.
 Given a session window of 5 minutes, here's what would happen if we had records for a key arriving late to a session window
 (more than 5 minutes latency): new arriving records for the key in the expired session window are included in a new session
 window:
-                                                                                
-                    +-+   +-+                           +-+   +-+                           +-+         +-+  
-                    |X|   |·|                           |X|   |·|                           |·|         |X|  
-                    +-+   +-+                           +-+   +-+                           +-+         +-+  
-                  0                             5                             10                            15   
-                  |                             |                             |                             |    
-           -------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|------->
-                  |                             |                             |                             |    
 
-Session windows are created per record key, not grouped because the inactivity for each key exceeds the session window of 5 minutes:
-
-
-                   +---+                               +---+                                           +---+
-                   |+-+|                               |+-+|                                           |+-+|
-                   ||X||                               ||X||                                           ||X||
-                   |+-+|                               |+-+|                                           |+-+|
-                   +---+                               +---+                                           +---+
-                         +---+                               +---+                         +---+
-                         |+-+|                               |+-+|                         |+-+|
-                         ||·||                               ||·||                         ||·||
-                         |+-+|                               |+-+|                         |+-+|
-                         +---+                               +---+                         +---+
-
+![session-window-with-latency](images/session-window-with-latency.png)
 
 
 Again, given a session window of 5 minutes, here's what would happen if we had records for a key arriving on time to a session window
 (less than 5 minutes latency): new arriving records for the key in the active session window are included on it:
+
+![session-window-without-latency](images/session-window-without-latency.png)
                                                                                 
-                    +-+   +-+               +-+              +-+    +-+         +-+         +-+  
-                    |X|   |·|               |X|              |X|    |·|         |·|         |X|  
-                    +-+   +-+               +-+              +-+    +-+         +-+         +-+  
-                  0                             5                             10                            15   
-                  |                             |                             |                             |    
-           -------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|------->
-                  |                             |                             |                             |    
-
-Session windows are created per record key, not grouped because the inactivity for each key exceeds the session window of 5 minutes:
-
-
-                   +---------------------------------------------------------------------------+
-Session Window 1   |+-+                     +-+               +-+                           +-+|
-   for key X       ||X|                     |X|               |X|                           |X||
-                   |+-+                     +-+               +-+                           +-+|
-                   +---------------------------------------------------------------------------+
-                         +---+                                     +----------------+
-     Session Window 1    |+-+|                  Session Window 2   |+-+          +-+|
-        for key ·        ||·||                     for key ·       ||·|          |·||
-                         |+-+|                                     |+-+          +-+|
-                         +---+                                     +----------------+
                                                                                
 * [stateful/windowing/O04_sessionWindowTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O04_sessionWindowTest.java) 
 * [stateful/windowing/O04_sessionWindow.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O04_sessionWindow.java) 
@@ -1499,23 +1353,8 @@ For more detailed information, see the JavaDoc on the Suppressed config object a
 **A 5 MINUTE + 10 SECONDS GRACE PERIOD WINDOW ALERTING WHEN ARRIVED >3 RECORDS FOR A KEY**
 
 Data records arriving in two streams                                                                 
-                                                                                                                         
-                    +-+  +-+      +-+  +-+  +-+   +-+         +-+   +-+   +-+   +-+               +-+   +-+   +-+   +-+   
- STREAM 1 --->      |X|  |·|      |X|  |·|  |·|   |X|         |·|   |X|   |·|   |X|               |·|   |X|   |X|   |·|   
-                    +-+  +-+      +-+  +-+  +-+   +-+         +-+   +-+   +-+   +-+               +-+   +-+   +-+   +-+   
-                                       +-+              +-+         +-+               +-+               +-+               +-+
- STREAM 2 --->                         |.|              |X|         |X|               |·|               |X|               |·|
-                                       +-+              +-+         +-+               +-+               +-+               +-+
-                  0                             5                             10                            15   
-                  |                             |                             |                             |    
-           -------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|------->
-                                              |                                                           |                                           
-                                              |                                                           |
-                                              |                                                           |
-                                              |      +-+                                                  |      +-+
-                                              V      |·|                                                  V      |X|
-                                              Alert! +-+ count is > 3                                     Alert! +-+ count is > 3 
 
+![5-min-and-10-sec-grace-period](images/a-5-min-and-10-seconds-grace-period.png)
 
 
 * [stateful/windowing/O05_windowFinalResults_ThresholdReachedTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/windowing/O05_windowFinalResults_ThresholdReachedTest.java) 
@@ -1730,16 +1569,16 @@ https://docs.confluent.io/platform/current/streams/javadocs/org/apache/kafka/str
 
 
 * [processorapi/utils/](src/main/java/io/confluent/examples/streams/streamdsl/processorapi/utils/)
-├── processors
-│   ├── EmailMetricThresholdAlert_Processor.java
-│   └── EmailMetricThresholdAlert_ProcessorSupplier.java
-└── transformers
-    ├── EmailMetricThresholdAlert_Transformer.java
-    ├── EmailMetricThresholdAlert_TransformerSupplier.java
-    ├── EmailMetricThresholdAlert_ValueTransformer.java
-    ├── EmailMetricThresholdAlert_ValueTransformerSupplier.java
-    ├── EmailMetricThresholdAlert_ValueTransformerWithKey.java
-    └── EmailMetricThresholdAlert_ValueTransformerWithKeySupplier.java
+  - processors
+    . EmailMetricThresholdAlert_Processor.java
+    . EmailMetricThresholdAlert_ProcessorSupplier.java
+  - transformers
+    . EmailMetricThresholdAlert_Transformer.java
+    . EmailMetricThresholdAlert_TransformerSupplier.java
+    . EmailMetricThresholdAlert_ValueTransformer.java
+    . EmailMetricThresholdAlert_ValueTransformerSupplier.java
+    . EmailMetricThresholdAlert_ValueTransformerWithKey.java
+    . EmailMetricThresholdAlert_ValueTransformerWithKeySupplier.java
 
 # Record caches in the DSL
 
