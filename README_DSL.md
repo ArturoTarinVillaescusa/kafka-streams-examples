@@ -81,6 +81,32 @@ Table of contents
     * [to: KStream -> void](#to)
 
 
+# How to run the examples:
+
+Create a standalone jar ("fat jar") of the [application examples](#examples-apps):
+
+```shell
+# Create a standalone jar ("fat jar")
+$ mvn clean package
+
+# >>> Creates target/kafka-streams-examples-6.0.0-standalone.jar
+```
+
+> Tip: If needed, you can disable the test suite during packaging, for example to speed up the packaging or to lower
+> JVM memory usage:
+>
+> ```shell
+> $ mvn -DskipTests=true clean package
+> ```
+> Additionally, if you need to overlook the check-style-code feature, you can add this modifier too:
+>
+>```
+> $ mvn -DskipTests=true -Dcheckstyle.skip clean package
+>```
+> You can now run the application examples as follows:
+ 
+Next, run or debug the tests from IntelliJ (or Eclipse)
+
 
 <a name="stateless-transformations"/>
 
