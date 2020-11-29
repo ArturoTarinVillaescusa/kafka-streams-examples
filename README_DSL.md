@@ -85,7 +85,7 @@ Table of contents
 
 Create a standalone jar ("fat jar") of the project:
 
-```shell
+```bash shell
 # Create a standalone jar ("fat jar")
 $ mvn clean package
 
@@ -421,9 +421,11 @@ of the records.
 
 Convert an event stream into a table or a changelog stream.
 
+```bash shell
 KStream<byte[], String> stream = ...;
 
 KTable<byte[], String> table = stream.toTable();
+```
 
 <a name="table-to-stream"/>
 
@@ -431,11 +433,14 @@ KTable<byte[], String> table = stream.toTable();
 
 Get the changelog stream of this table.
 
+```bash shell
+
 KTable<byte[], String> table = ...;
 
 // Also, a variant of `toStream` exists that allows you
 // to select a new key for the resulting stream.
 KStream<byte[], String> stream = table.toStream();
+```
 
 <a name="stateful-transformations"/>
 
@@ -461,6 +466,7 @@ Available stateful transformations in the DSL include:
 This diagram shows the relationships between the stateful transformations:
 
 https://docs.confluent.io/current/_images/streams-stateful_operations.png
+![streams operations](images/streams-stateful_operations.pn)
 
 <a name="wordcount-example"/>
 
@@ -723,42 +729,53 @@ KTable-to-GlobalKTable  | N/A 	       |  Not Supported | Not Supported | Not Sup
 
 ## Running the GlobalKTablesExample.java:
 
+```bash
 07:42:02 $ confluent local services schema-registry start
+```
 
 ### Build the application:
 
-07:42:02 $ mvn -DskipTests=true -Dcheckstyle.skip clean package
+```bash
+$ mvn -DskipTests=true -Dcheckstyle.skip clean package
+```
 
 ### Run the Kafka Streams topology:
 
-07:42:02 $ java -cp target/kafka-streams-examples-6.0.0-standalone.jar \
+```bash
+$ java -cp target/kafka-streams-examples-6.0.0-standalone.jar \
                     io.confluent.examples.streams.GlobalKTablesExample
+```
 
 ### Generate messages to the input topics:
 
-07:42:02 $ java -cp target/kafka-streams-examples-6.0.0-standalone.jar \
+```bash
+$ java -cp target/kafka-streams-examples-6.0.0-standalone.jar \
                 io.confluent.examples.streams.GlobalKTablesExampleDriver
-
+```
 
 ## Running the GlobalKTablesExampleTest.java:
 
 ### Make sure you stop the external Kafka Confluent
 
-07:55:13 $ confluent local services stop
+```bash
+$ confluent local services stop
+```
 
 ### Make sure the 8080 port is not in use, otherwise the test will fail complaining about it:
 
-20:15:48 $ ~/Downloads/apache-tomcat-9.0.39/bin/catalina.sh stop
+```bash
+$ ~/Downloads/apache-tomcat-9.0.39/bin/catalina.sh stop
+```
 
 ### Run IntelliJ in debug mode:
 
-07:55:13 $ run GlobalKTablesExampleTest.java in debug mode
-
+```bash
+Open IntelliJ and run GlobalKTablesExampleTest.java in debug mode
+```
 
 ## Join co-partitioning requirements:
 
-Input data must be co-partitioned when joining. This ensures that input records with the same key, from both sides
-of the join, are delivered to the same stream task during processing.
+Input data must be co-partitioned when joining. This ensures that input records with the same key, from both sides of the join, are delivered to the same stream task during processing.
 
 It is responsibility of the user to ensure data co-partitioning when joining.
 
@@ -767,36 +784,29 @@ Note: If possible consider GlobalKTables for joining because they don't require 
 The requirements of data co-partitioning are:
 
 * The input topics of the join (left side and right side) must have the same number of partitions
-* All applications that write to the input topics must have the same partitioning strategy so that the records with
-  the same key are delivered to the same partition number.
+* All applications that write to the input topics must have the same partitioning strategy so that the records with the same key are delivered to the same partition number.
   In other words: the keyspace of the input data must be distributed across partitions in the same manner.
-  This means that, for example, applications that use Kafka's Producer API must use the same partitioner (cf. the
-  producer setting "partition.class" aka "ProducerConfig.PARTITIONER_CLASS_CONFIG", and applications that use the
-  Kafka's Streams API must use the same StreamPartitioner for operations such KStream#to().
+  This means that, for example, applications that use Kafka's Producer API must use the same partitioner (cf. the producer setting "partition.class" aka "ProducerConfig.PARTITIONER_CLASS_CONFIG", and applications that use the Kafka's Streams API must use the same StreamPartitioner for operations such KStream#to().
+  
   YOU DON'T NEED TO WORRY ABOUT THIS IF YOU USE THE DEFAULT PARTITIONER SETTINGS.
 
-Co-partitioning is required for joins because KS-KS, KT-KT and KS-KT joins are performed based on the keys of records,
-e.g. leftRecord.key == rightRecord.key
+Co-partitioning is required for joins because KS-KS, KT-KT and KS-KT joins are performed based on the keys of records, e.g. leftRecord.key == rightRecord.key
 
-KS-GlobalKTable joins do not require co-partitioning because all the partitions of the GlobalKTable's underlying
-changelog are made available to each KafkaStreams instance, i.e. each instance has a full copy of the changelog stream.
+KS-GlobalKTable joins do not require co-partitioning because all the partitions of the GlobalKTable's underlying changelog are made available to each KafkaStreams instance, i.e. each instance has a full copy of the changelog stream.
 Further, a KeyValueMapper allows for non-key based joins from the KStream to the GlobalKTable
 
-Kafka Streams partly verifies the co-partitioning requirement: During the partition assignment step, i.e. at runtime,
-Kafka Streams verifies whether the number of partitions for both sides of a join are the same.
+Kafka Streams partly verifies the co-partitioning requirement: During the partition assignment step, i.e. at runtime, Kafka Streams verifies whether the number of partitions for both sides of a join are the same.
 
 If they aren't, a TopologyBuilderException is being thrown.
 
-Note that Kafka Streams cannot verify whether the partitioning strategy matches between the input streams/tables of a
-join. It's up to the user to ensure that this is the case.
+Note that Kafka Streams cannot verify whether the partitioning strategy matches between the input streams/tables of a join. It's up to the user to ensure that this is the case.
 
 ## Ensuring data co-partitioning:
 
 If the inputs of a join are not co-partitioned yet, you must ensure this manually.
 You may follow a procedure such as outlined below.  
 
-In order to avoid bottlenecks it is recommended repartition the topic with fewer partitions to match the larger partition
-number.
+In order to avoid bottlenecks it is recommended repartition the topic with fewer partitions to match the larger partition number.
 
 It's also possible to repartition the topic with more partitions to match the smaller partition number.
 
@@ -818,13 +828,13 @@ For KT-KT joins consider the size of the KTables (number or records?) and repart
 
 ## KStream-KStream join
 
-KStream-KStream joins are always windowed joins, because otherwise the size of the internal state store used to perform
-the join, e.g. a sliding window or "buffer", would grow indefinitely.
+KStream-KStream joins are always windowed joins, because otherwise the size of the internal state store used to perform the join, e.g. a sliding window or "buffer", would grow indefinitely.
 
-For KS-KS joins it's important to highlight that a new input record on one side will produce a join output for each
-record on the other side (carthesian product), and there can be multiple such matching records in a given join window.
+For KS-KS joins it's important to highlight that a new input record on one side will produce a join output for each record on the other side (carthesian product), and there can be multiple such matching records in a given join window.
 
 Join output records are effectively created as follows, leveraging the user-supplied ValueJoiner:
+
+```bash shell
 
 KeyValue<K, LV> leftRecord = ...;
 KeyValue<K, RV> rightRecord = ...;
@@ -834,6 +844,7 @@ KeyValue<K, JV> joinOutputRecord = KeyValue.pair(
     leftRecord.key, /* by definition, leftRecord.key == rightRecord.key */
     joiner.apply(leftRecord.value, rightRecord.value)
   );
+```
 
 <a name="ks-ks-inner-join"/>
 
@@ -845,14 +856,12 @@ Eventhough this operation is windowed, the joined stream will be of type KStream
 
 Data in each stream must be co-partitioned.
 
-Causes data re-partitioning if and only if the stream was marked for re-partitioning. If both are marked, both are
-re-partitioned.
+Causes data re-partitioning if and only if the stream was marked for re-partitioning. If both are marked, both are re-partitioned.
 
 Detailed behavior:
 
 * The join is key-based, i.e. with the join predicate leftRecord.key == rightRecord.key, 
-  and window based, i.e. two input records are joined if and only if their timestamps are close to each other as
-  defined by the user-supplied JoinWindows, i.e. windows defines an additional predicate over the record timestamps.
+  and window based, i.e. two input records are joined if and only if their timestamps are close to each other as defined by the user-supplied JoinWindows, i.e. windows defines an additional predicate over the record timestamps.
 
 * The joins will be triggered under the following conditions whenever new input is received:
 
@@ -874,24 +883,20 @@ Even though this operation is windowed, the joined stream will be of type KStrea
 
 Data of both input streams must be co-partitioned.
 
-Causes data re-partitioning of a stream if and only if the stream was marked for re-partitioning. If both are marked,
-both are re-partitioned.
+Causes data re-partitioning of a stream if and only if the stream was marked for re-partitioning. If both are marked, both are re-partitioned.
 
 Detailed behavior:
 
 * The join is key-based, i.e. with the join predicate leftRecord.key == rightRecord.key,
-  and window-based, i.e. two input records are joined if and only if their timestams are close to each other as defined
-  by the UserSupplied JoinWindows, i.e. the window defines an additional join predicate over the record timestamps.
+  and window-based, i.e. two input records are joined if and only if their timestams are close to each other as defined by the UserSupplied JoinWindows, i.e. the window defines an additional join predicate over the record timestamps.
   
 * The join will be triggered under the conditions listed below whenever new input is received:
 
     1. Input records with a null key or a null value are ignored and do not trigger the join.
     2. Left record is the master of the trigger action:
       - Right records newly arrived; joins will wait until left record with matching key arrives.
-      - Left records newly arrived trigger joins with existing right records with matching key that are queued to be
-        matched
-* For each input record on the left hand side that does not have any match on the right side, the ValueJoiner will be
-  called with ValueJoiner#apply(leftRecord.value, null)
+      - Left records newly arrived trigger joins with existing right records with matching key that are queued to be matched
+* For each input record on the left hand side that does not have any match on the right side, the ValueJoiner will be called with ValueJoiner#apply(leftRecord.value, null)
 
 Working code examples found here:
 
@@ -908,24 +913,19 @@ Eventhough this operation is windowed, the joined stream will be of type KStream
 
 Left and rigth streams must be co-partitioned.
 
-Causes data repartitioning of a stream if and only if the stream was marked before for re-partitioning. If both are
-marked, both are re-partitioned.
+Causes data repartitioning of a stream if and only if the stream was marked before for re-partitioning. If both are marked, both are re-partitioned.
 
 Detailed behavior:
 
 * The join is key-based, i.e. with the join predicate leftRecord.key == rightRecord.key
-  and window-based, i.e. two input records are joined if and only if their timestamps are close to each other as
-  defined by the user-supplied JoinWindows, i.e. the window defines an additional join predicate over the record timestamps.
+  and window-based, i.e. two input records are joined if and only if their timestamps are close to each other as defined by the user-supplied JoinWindows, i.e. the window defines an additional join predicate over the record timestamps.
 * The join will be triggered under the conditions listed below whenever new input is received.
 
     1. Input records with a null key or a null value are ignored and do not trigger the join.
     2. Either left or right record are masters of the trigger action:
-      - Left/right records newly arrived trigger joins with existing right/left records with matching key that are
-        queued to be matched
+      - Left/right records newly arrived trigger joins with existing right/left records with matching key that are queued to be matched
 
-* For each record on one side that does not have any match on the other side, the ValueJoiner will be called with
-  ValueJoiner#apply(leftRecord.value, null) or ValueJoiner#apply(null, rightRecord.value), respectively.
-
+* For each record on one side that does not have any match on the other side, the ValueJoiner will be called with ValueJoiner#apply(leftRecord.value, null) or ValueJoiner#apply(null, rightRecord.value), respectively.
 
 * [stateful/joining/ks_ks/O03_outerJoinTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoinTest.java) 
 * [stateful/joining/ks_ks/O03_outerJoin.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_ks/O03_outerJoin.java) 
@@ -967,15 +967,12 @@ Left and right data must be co-partitioned.
 Detailed behavior:
 
 * The join is key-based, i.e. with the join predicate leftRecord.key == rightRecord.key
-* The join will be triggered under the conditions below whenever the input is received. When it's triggered, the
-  user-supplied ValueJoiner will be called to produce join output records.
+* The join will be triggered under the conditions below whenever the input is received. When it's triggered, the user-supplied ValueJoiner will be called to produce join output records.
   
   1. Input records with a null key are ignored and do not trigger the join.
-  2. Input records with a null value are interpreted as tombstones for the corresponding key, which indicate the deletion
-     of the key from the table.
+  2. Input records with a null value are interpreted as tombstones for the corresponding key, which indicate the deletion of the key from the table.
      Tombstones do not trigger the join.
-     When an input tombstone is received, then an output tombstone is forwarded directly to the output result KTable only
-     if the corresponding key actually exists already in this output KTable.
+     When an input tombstone is received, then an output tombstone is forwarded directly to the output result KTable only if the corresponding key actually exists already in this output KTable.
 
 * [stateful/joining/kt_kt/O01_innerJoinTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O01_innerJoinTest.java) 
 * [stateful/joining/kt_kt/O01_innerJoin.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O01_innerJoin.java) 
@@ -991,17 +988,13 @@ Both left and right data must be co-partitioned.
 Detailed behavior:
 
 * The join is key-based, i.e. with the join predicate leftRecord.key == rightRecord.key
-* The join will be triggered under the conditions listed below whenever new input is received. When it is triggered,
-  the user-supplied ValueJoiner will be called to produce join output records:
+* The join will be triggered under the conditions listed below whenever new input is received. When it is triggered, the user-supplied ValueJoiner will be called to produce join output records:
   
   1. Input records with a null key are ignored and do not trigger the join.
-  2. Input records with a null value are interpreted as tombstones for the corresponding key, which indicate the
-     deletion of the key from the table.
+  2. Input records with a null value are interpreted as tombstones for the corresponding key, which indicate the deletion of the key from the table.
      Tombstones do not trigger the join.
-     When an input tombstone is received, then an output tombstone is forwarded directly to the join result KTable if
-     the corresponding key actually exist in the join result KTable.
-* For each input record on the left side that doesn't have any match on the right side, the ValueJoiner will be called
-  with ValueJoiner#apply(leftRecord.key, null)
+     When an input tombstone is received, then an output tombstone is forwarded directly to the join result KTable if the corresponding key actually exist in the join result KTable.
+* For each input record on the left side that doesn't have any match on the right side, the ValueJoiner will be called with ValueJoiner#apply(leftRecord.key, null)
 
 * [stateful/joining/kt_kt/O02_leftJoinTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O02_leftJoinTest.java) 
 * [stateful/joining/kt_kt/O02_leftJoin.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/joining/kt_kt/O02_leftJoin.java) 
@@ -1012,13 +1005,13 @@ Detailed behavior:
 
 KStream-KTable joins are always non-windowed joins.
 
-They allow to perform table lookups agains a KTable, also known as changelog stream, upon receiving a new record from
-the KStream.
+They allow to perform table lookups agains a KTable, also known as changelog stream, upon receiving a new record from the KStream.
 
-An example use case would be to enrich a stream of user activities arriving in the KStream with the latest user profile
-stored in the KTable.
+An example use case would be to enrich a stream of user activities arriving in the KStream with the latest user profile stored in the KTable.
 
 Join output records are efficiently created as follows, leveraging the user-supplied ValueJoiner:
+
+```bash shell
 
 KeyValue<K, LV> leftRecord = ...;
 KeyValue<K, RV> rightRecord = ...;
@@ -1028,7 +1021,7 @@ KeyValue<K, JV> joinOutputRecord = KeyValue.pair(
     leftRecord.key, // by definition leftRecord.key == rightRecord.key
     joiner.apply(leftRecord.value, rightRecord.value)
 );
-
+```
 
 **Records arriving order matters ...**
 
@@ -1044,26 +1037,31 @@ Timestamp |  KSTream record      KTable record      KSTream outout join       KS
 
 In your test this can be seen like like this. If you do this input ...:
 
+```bash shell
         testInputTopic1.pipeKeyValueList(leftStreamInputValues);
         testInputTopic2.pipeKeyValueList(rightTableInputValues);
-
+```
 
 ... you get this output:
+
+```bash shell
 
 java.lang.AssertionError: 
 Expected: <{1=left=A, right=a}>
      but: was <{}>
 Expected :<{1=left=A, right=a}>
 Actual   :<{}> 
+```
 
 You can solve this problem in the test just changing the order of the pipe calls:
 
+```bash shell
         // To trigger the join first the table must have matching elements
         testInputTopic2.pipeKeyValueList(rightTableInputValues);
         // After the table has elements, records arriving to the stream will start triggering joins with
         // the matching elements in the table
         testInputTopic1.pipeKeyValueList(leftStreamInputValues);
-
+```
 
 The test will then pass. You will see this happening after the change:
 
@@ -1091,8 +1089,7 @@ Detailed behavior:
   1. Only input records from the stream in the left side trigger the join.
      Input records for the table in the right side update only the internal right-side join state.
   2. Input records for the stream with a null key or a null value are ignored and do not trigger the join.
-  3. Input records for the table with a null value are interpreted as tombstones for the corresponding key, which
-     indicate the deletion of the key from the table.
+  3. Input records for the table with a null value are interpreted as tombstones for the corresponding key, which indicate the deletion of the key from the table.
      Tombstones do not trigger the join.
 
 * [stateful/joining/ks_kt/O01_innerJoinTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/joining/ks_kt/O01_innerJoinTest.java) 
@@ -1111,19 +1108,16 @@ Causes data re-partitioning of the stream if and only if the stream was marked f
 Detailed behavior:
 
 * The join is key-based, i.e. with the join predicate being leftRecord.key == rightRecord.key
-* The join will be triggered under the conditions listed below whenever new input is received. When it is triggered, the
-  user-supplied ValueJoiner will be called to produce join output records.
+* The join will be triggered under the conditions listed below whenever new input is received. When it is triggered, the user-supplied ValueJoiner will be called to produce join output records.
   
   1. Only input records for the left side stream trigger the join.
      Input records for the right side table update only the internal right-side join state.
   2. Input records for the stream with a null key or a null value are ignored and do not trigger the join
-  3. Input records for the table with a null value are interpreted as tombsotones for the corresponding key, which
-     indicate the deletion of the key from the table.
+  3. Input records for the table with a null value are interpreted as tombsotones for the corresponding key, which indicate the deletion of the key from the table.
        
      NOTE: Tombstones DO NOT trigger the join.
 
-* For each input record on the left side stream that do not have any match on the right side table, the ValueJoiner will
-  be called with ValueJoiner#apply(leftRecord.value, null)
+* For each input record on the left side stream that do not have any match on the right side table, the ValueJoiner will be called with ValueJoiner#apply(leftRecord.value, null)
 
 Find working examples here:
   
@@ -1136,27 +1130,23 @@ Find working examples here:
 
 KSTream-GlobalKTable joins are always non-windowed joins.
 
-They allow you to perform table lookups against a GlobalKTable, which is an entire changelog stream distributed in all
-the partitions of a topic, which in fact are proportionally equal distributed between all the nodes of a Kafka cluster.
+They allow you to perform table lookups against a GlobalKTable, which is an entire changelog stream distributed in all the partitions of a topic, which in fact are proportionally equal distributed between all the nodes of a Kafka cluster.
 
 The join is triggered upon received a new record from the KStream.
 
-An example use case would be "star queries" or "star joins", where you would enrich a KSTream of user activities with
-the latest user profile information stored in the GlobalKTable plus further context information stored in further
-GlobalKTables.
+An example use case would be "star queries" or "star joins", where you would enrich a KSTream of user activities with the latest user profile information stored in the GlobalKTable plus further context information stored in further GlobalKTables.
 
-At a high level, KSTream-GlobalKTable joins are very similar to KSTream-KTable joins. However, global tables provide
-you with much more flexibility at the some expense when compared to partitioned tables:
+At a high level, KSTream-GlobalKTable joins are very similar to KSTream-KTable joins. However, global tables provide you with much more flexibility at the some expense when compared to partitioned tables:
 
 * They do not require data co-partitioning.
 * They allow for efficient "star joins", i.e. joining a large-scale "facts" stream against "dimension" tables.
-* They allow joining against foreign keys, i.e. you can lookup data in the table not just by the keys of records in the
-  stream, but also by data in the record values.
+* They allow joining against foreign keys, i.e. you can lookup data in the table not just by the keys of records in the stream, but also by data in the record values.
 * They make many use cases feasible where you must work on heavily skewed data and thus suffer from hot partitions.
-* They are often more efficient than their partitioned KTable counterpart when you need to perform multiple joins in
-  succession.
+* They are often more efficient than their partitioned KTable counterpart when you need to perform multiple joins in succession.
   
 Join output records are effectively created as follows, leveraging the user-supplied ValueJoiner:
+
+```bash shell
 
 KeyValue<K, LV> leftRecord = ...;
 KeyValue<K, RV> rightRecord = ...;
@@ -1166,6 +1156,7 @@ KeyValue<K, JV> joinOutputRecord = KeyValue.pair(
     leftRecord.key,     // by definition, leftRecord.key == rightRecord.key
     joiner.apply(leftRecord.value, rightRecord.value)
 );
+```
 
 <a name="ks-gkt-innerjoin"/>
 
@@ -1173,8 +1164,7 @@ KeyValue<K, JV> joinOutputRecord = KeyValue.pair(
 
 Performs an inner join of the left stream with the right global table, effectively doing a table lookup.
 
-The GlobalKTable is fully bootstraped upon (re)start of a Kafka Streams instance, which means the table is fully
-populated with all the data in the underlying topic that is available at the time of the startup.
+The GlobalKTable is fully bootstraped upon (re)start of a Kafka Streams instance, which means the table is fully populated with all the data in the underlying topic that is available at the time of the startup.
 
 The actual data processing begins only once the bootstrapping has completed.
 
@@ -1190,8 +1180,7 @@ Detailed behavior:
   1. Only input records for the left side stream trigger the join.
      Input records for tthe right side table update only the internal right-side join state.
   2. Input records for the left side stream with a null key or null value are ignored and do not trigger the join.
-  3. Input records for the table with null value are interpreted as tombstones, which indicate the deletion of a record
-     key from the table. 
+  3. Input records for the table with null value are interpreted as tombstones, which indicate the deletion of a record key from the table. 
      Tombstones do not trigger the join.
      
 **USEFUL HELPER: Avro Schema From JSON Generator**
@@ -1202,6 +1191,8 @@ Detailed behavior:
 
 If you write this in the box
 
+```bash shell
+
 {
     "firstname": "aaa",
     "lastname": "bbb",
@@ -1210,11 +1201,12 @@ If you write this in the box
     "vip": true,
     "nationality": "spanish"
 }
+```
 
 You will get the corresponding AVSC codification:
 
 **Note: change the "name" and the "namespace" accordingly in your code**
-
+```bash shell
 {
   "name": "Customer",
   "type": "record",
@@ -1246,6 +1238,7 @@ You will get the corresponding AVSC codification:
     }
   ]
 }
+```
 
 * [resources/avro/io/confluent/examples/streams/streamsdsl.stateful.joining.ks_gkt/global-tables-schemas.avsc](src/main/resources/avro/io/confluent/examples/streams/streamsdsl.stateful.joining.ks_gkt/global-tables-schemas.avsc) 
 

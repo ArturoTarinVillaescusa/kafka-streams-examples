@@ -10,17 +10,6 @@ public class MyCustomStoreTypeWrapper implements MyReadableCustomStore<K, V> {
     private final QueryableStoreType<MyReadableCustomStore<K, V>> customStoreType;
     private final String stateStoreName;
     private final StateStoreProvider provider;
-/*
-
-    public <K, V> MyCustomStoreTypeWrapper(final StateStoreProvider provider,
-                                           final String stateStoreName,
-                                           final QueryableStoreType<MyReadableCustomStore<io.confluent.examples.streams.streamdsl.interactivequeries.statestore.K, io.confluent.examples.streams.streamdsl.interactivequeries.statestore.V>> customStoreType) {
-        // ... assign fields
-        this.customStoreType = customStoreType;
-        this.stateStoreName = stateStoreName;
-        this.provider = provider;
-    }
-*/
 
     public <K, V> MyCustomStoreTypeWrapper(StateStoreProvider provider,
                                            String stateStoreName,
