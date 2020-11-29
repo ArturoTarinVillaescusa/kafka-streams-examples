@@ -1,21 +1,18 @@
 package io.confluent.examples.streams.streamdsl.interactivequeries;
 
+import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.streams.*;
-import org.apache.kafka.streams.test.TestRecord;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -24,24 +21,21 @@ import static org.junit.Assert.assertTrue;
  * See {@link O1_QueryLocalKeyValueStores} for further documentation.
  */
 public class O1_QueryLocalKeyValueStoresTest {
-    private static final ZoneId zone = ZoneOffset.UTC;
     private TopologyTestDriver testDriver;
     private TestInputTopic<String, String> testInputTopic;
-    private TestOutputTopic<String, String> testNormalOutputTopic;
-    private TestOutputTopic<String, String> testMailOutputTopic;
+    private TestOutputTopic<String, Long> testOutputTopic;
     private StringSerializer stringSerializer = new StringSerializer();
     private StringDeserializer stringDeserializer = new StringDeserializer();
+    private LongDeserializer longDeserializer = new LongDeserializer();
 
-    private List<TestRecord<String, String>> inputValues = Arrays.asList(
-            new TestRecord<>("mailto:arturotarin.villa@hcl.com","value01",
-                    ZonedDateTime.of(2020, 1, 1, 04, 33, 0, 0, zone).toInstant())
-            ,new TestRecord<>("key02","value02",
-                    ZonedDateTime.of(2020, 1, 1, 05, 33, 0, 0, zone).toInstant())
+    private List<KeyValue<String, String>> inputValues = Arrays.asList(
+            new KeyValue<>("key01","This is the text assigned to the key01")
+            ,new KeyValue<>("key02","And this is the one assigned to the key02")
     );
 
     @Before
     public void setup() {
-        final StreamsBuilder builder = new StreamsBuilder();
+        StreamsBuilder builder = new StreamsBuilder();
 
         // Create actual StreamBuilder topology
         O1_QueryLocalKeyValueStores.createStream(builder);
@@ -63,12 +57,9 @@ public class O1_QueryLocalKeyValueStoresTest {
         testInputTopic =
             testDriver.createInputTopic(O1_QueryLocalKeyValueStores.inputTopic,
                                         stringSerializer, stringSerializer);
-        testNormalOutputTopic =
-            testDriver.createOutputTopic(O1_QueryLocalKeyValueStores.normalOutputTopic,
-                                        stringDeserializer,stringDeserializer);
-        testMailOutputTopic =
-            testDriver.createOutputTopic(O1_QueryLocalKeyValueStores.mailOutputTopic,
-                                        stringDeserializer,stringDeserializer);
+        testOutputTopic =
+            testDriver.createOutputTopic(O1_QueryLocalKeyValueStores.outputTopic,
+                                        stringDeserializer,longDeserializer);
     }
 
     @After
@@ -83,31 +74,45 @@ public class O1_QueryLocalKeyValueStoresTest {
     }
 
     @Test
-    public void mailtoKeysMustGoToTheMailTopic() {
-        List<TestRecord<String, String>> outputValues = Arrays.asList(
-            new TestRecord<>("mailto:arturotarin.villa@hcl.com","value01",
-                    ZonedDateTime.of(2020, 1, 1, 04, 33, 0, 0, zone).toInstant())
+    public void outputStreamReceivesTheExpectedRecords() {
+        List<KeyValue<String, Long>> expectedOutputValues = Arrays.asList(
+             new KeyValue<>("this", 1L)
+            ,new KeyValue<>("is", 1L)
+            ,new KeyValue<>("the", 1L)
+            ,new KeyValue<>("text", 1L)
+            ,new KeyValue<>("assigned", 1L)
+            ,new KeyValue<>("to", 1L)
+            ,new KeyValue<>("the", 2L)
+            ,new KeyValue<>("key01", 1L)
+            ,new KeyValue<>("and", 1L)
+            ,new KeyValue<>("this", 2L)
+            ,new KeyValue<>("is", 2L)
+            ,new KeyValue<>("the", 3L)
+            ,new KeyValue<>("one", 1L)
+            ,new KeyValue<>("assigned", 2L)
+            ,new KeyValue<>("to", 2L)
+            ,new KeyValue<>("the", 4L)
+            ,new KeyValue<>("key02", 1L)
+
         );
 
-        testInputTopic.pipeRecordList(inputValues);
+        testInputTopic.pipeKeyValueList(inputValues);
 
-        assertThat(testMailOutputTopic.readRecordsToList(), equalTo(outputValues));
+        assertThat(testOutputTopic.readKeyValuesToList(), equalTo(expectedOutputValues));
+
         //No more output in topic
-        assertTrue(testMailOutputTopic.isEmpty());
+        assertTrue(testOutputTopic.isEmpty());
     }
 
     @Test
-    public void otherKeysMustGoToTheNormalTopic() {
-        List<TestRecord<String, String>> outputValues = Arrays.asList(
-                new TestRecord<>("key02","value02",
-                        ZonedDateTime.of(2020, 1, 1, 05, 33, 0, 0, zone).toInstant())
-        );
+    public void materializedResultIsOK() {
 
-        testInputTopic.pipeRecordList(inputValues);
-
-        assertThat(testNormalOutputTopic.readRecordsToList(), equalTo(outputValues));
-        //No more output in topic
-        assertTrue(testNormalOutputTopic.isEmpty());
     }
+
+    @Test
+    public void nonMaterializedResultIsOK() {
+
+    }
+
 
 }

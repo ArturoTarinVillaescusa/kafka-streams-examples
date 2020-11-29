@@ -1,28 +1,29 @@
 package io.confluent.examples.streams.streamdsl.interactivequeries;
 
 import io.confluent.common.utils.TestUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.streams.KafkaStreams;
-import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.StreamsConfig;
-import org.apache.kafka.streams.Topology;
+import org.apache.kafka.common.utils.Bytes;
+import org.apache.kafka.streams.*;
 import org.apache.kafka.streams.errors.LogAndContinueExceptionHandler;
-import org.apache.kafka.streams.kstream.Consumed;
-import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.*;
+import org.apache.kafka.streams.state.KeyValueStore;
+import org.apache.kafka.streams.state.QueryableStoreTypes;
+import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
 
+import java.util.Arrays;
 import java.util.Properties;
-import java.util.Random;
 
 /**
  * Demonstrates, using the high-level KStream DSL, how to query
  * local KeyValue State Stores
  *
  **/
+@Slf4j
 public class O1_QueryLocalKeyValueStores {
     static final String inputTopic = "input-topic";
-    static final String normalOutputTopic = "normal-output-topic";
-    static final String mailOutputTopic = "mail-output-topic";
-    static final Random random = new Random();
+    static final String outputTopic = "output-topic";
+    static final String stateStoreName = "count-key-value-store";
 
     public static void main(String[] args) {
 
@@ -66,15 +67,54 @@ public class O1_QueryLocalKeyValueStores {
         // Run the processor topology via start() to begin processing it's data
         streams.start();
 
+        // Get access to “count-key-value-store” and then query it via the ReadOnlyKeyValueStore API:
+        queryTheStateStore(streams, stateStoreName);
+
         // Add shutdown hook to respond to SIGTERM and gracefully close the Streams application
         Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
     }
 
     public static void createStream(StreamsBuilder streamsBuilder) {
-        KStream<String, String> textLines = streamsBuilder.stream(inputTopic,
+        KStream<String, String> textLinesStream = streamsBuilder.stream(inputTopic,
                 Consumed.with(Serdes.String(), Serdes.String()));
 
-        // Define the
+        // Define the processing topology, for example a typical word count
+        KStream<String, String> wordsStream =
+                textLinesStream.flatMapValues(
+                        (value) -> Arrays.asList(value.toLowerCase().split("\\W+"))
+                , Named.as("words-stream"));
+
+        KGroupedStream<String, String> groupedByWord = wordsStream.groupBy((key, word) -> word,
+                Grouped.as("kgrouped-words-stream")
+                       .with(Serdes.String(), Serdes.String()));
+
+        // Materialize the result of filtering corresponding to the count of different words by
+        // creating a key-value State Store named "count-key-value-store" for the all-time words
+        // count
+        KTable<String, Long> countByGroup = groupedByWord
+                .count(Materialized
+                        .<String, Long, KeyValueStore<Bytes, byte[]>>as(stateStoreName)
+                        .withValueSerde(Serdes.Long()));
+
+        countByGroup.toStream().print(Printed.toFile("/tmp/countByGroup.txt"));
+
+        // Write the records to the output topic
+        countByGroup.toStream().to(outputTopic,
+                Produced.with(Serdes.String(), Serdes.Long()));
+
+    }
+
+    private static void queryTheStateStore(KafkaStreams streams, String stateStoreName) {
+        // Get the key-value State Store
+        ReadOnlyKeyValueStore<Object, Object> keyValueStore =
+                streams.store(StoreQueryParameters.fromNameAndType(stateStoreName,
+                        QueryableStoreTypes.keyValueStore()));
+
+        // Get the values for all of the keys available in this application instance
+        keyValueStore.all().forEachRemaining(kv -> {
+            System.out.println("key={},"+ kv.key+" value={}\n" +kv.value);
+            log.info("key={}, value={}\n", kv.key, kv.value);
+        });
     }
 
     public static Properties getStreamsConfiguration(String bootstrapServers) {
@@ -110,16 +150,4 @@ public class O1_QueryLocalKeyValueStores {
 
         return properties;
     }
-
-    // We will improve our partitioners in a specific chapter
-    private static Integer NormalHashPartitioner(String key, String value, int numPartitions) {
-        int outputPartition = random.nextInt(numPartitions);
-        return outputPartition;
-    }
-
-    // We will improve our partitioners in a specific chapter
-    private static Integer MailMaHashPartitioner(String key, String value, int numPartitions) {
-        return 1;
-    }
-
 }
