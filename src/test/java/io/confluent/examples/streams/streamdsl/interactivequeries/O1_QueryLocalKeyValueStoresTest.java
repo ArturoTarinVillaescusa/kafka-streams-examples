@@ -24,6 +24,8 @@ public class O1_QueryLocalKeyValueStoresTest {
     private TopologyTestDriver testDriver;
     private TestInputTopic<String, String> testInputTopic;
     private TestOutputTopic<String, Long> testOutputTopic;
+    private TestOutputTopic<String, Long> testOddOutputTopic;
+    private TestOutputTopic<String, Long> testPairOutputTopic;
     private StringSerializer stringSerializer = new StringSerializer();
     private StringDeserializer stringDeserializer = new StringDeserializer();
     private LongDeserializer longDeserializer = new LongDeserializer();
@@ -58,8 +60,14 @@ public class O1_QueryLocalKeyValueStoresTest {
             testDriver.createInputTopic(O1_QueryLocalKeyValueStores.inputTopic,
                                         stringSerializer, stringSerializer);
         testOutputTopic =
-            testDriver.createOutputTopic(O1_QueryLocalKeyValueStores.outputTopic,
-                                        stringDeserializer,longDeserializer);
+                testDriver.createOutputTopic(O1_QueryLocalKeyValueStores.outputTopic,
+                        stringDeserializer,longDeserializer);
+        testOddOutputTopic =
+                testDriver.createOutputTopic(O1_QueryLocalKeyValueStores.oddOutputTopic,
+                        stringDeserializer,longDeserializer);
+        testPairOutputTopic =
+                testDriver.createOutputTopic(O1_QueryLocalKeyValueStores.pairOutputTopic,
+                        stringDeserializer,longDeserializer);
     }
 
     @After
@@ -76,24 +84,23 @@ public class O1_QueryLocalKeyValueStoresTest {
     @Test
     public void outputStreamReceivesTheExpectedRecords() {
         List<KeyValue<String, Long>> expectedOutputValues = Arrays.asList(
-             new KeyValue<>("this", 1L)
-            ,new KeyValue<>("is", 1L)
-            ,new KeyValue<>("the", 1L)
-            ,new KeyValue<>("text", 1L)
-            ,new KeyValue<>("assigned", 1L)
-            ,new KeyValue<>("to", 1L)
-            ,new KeyValue<>("the", 2L)
-            ,new KeyValue<>("key01", 1L)
-            ,new KeyValue<>("and", 1L)
-            ,new KeyValue<>("this", 2L)
-            ,new KeyValue<>("is", 2L)
-            ,new KeyValue<>("the", 3L)
-            ,new KeyValue<>("one", 1L)
-            ,new KeyValue<>("assigned", 2L)
-            ,new KeyValue<>("to", 2L)
-            ,new KeyValue<>("the", 4L)
-            ,new KeyValue<>("key02", 1L)
-
+                new KeyValue<>("this", 1L)
+                ,new KeyValue<>("is", 1L)
+                ,new KeyValue<>("the", 1L)
+                ,new KeyValue<>("text", 1L)
+                ,new KeyValue<>("assigned", 1L)
+                ,new KeyValue<>("to", 1L)
+                ,new KeyValue<>("the", 2L)
+                ,new KeyValue<>("key01", 1L)
+                ,new KeyValue<>("and", 1L)
+                ,new KeyValue<>("this", 2L)
+                ,new KeyValue<>("is", 2L)
+                ,new KeyValue<>("the", 3L)
+                ,new KeyValue<>("one", 1L)
+                ,new KeyValue<>("assigned", 2L)
+                ,new KeyValue<>("to", 2L)
+                ,new KeyValue<>("the", 4L)
+                ,new KeyValue<>("key02", 1L)
         );
 
         testInputTopic.pipeKeyValueList(inputValues);
@@ -105,14 +112,64 @@ public class O1_QueryLocalKeyValueStoresTest {
     }
 
     @Test
-    public void materializedResultIsOK() {
+    public void oddOutputStreamReceivesTheExpectedRecords() {
+        List<KeyValue<String, Long>> expectedOddOutputValues = Arrays.asList(
+                new KeyValue<>("this", 1L)
+                ,new KeyValue<>("is", 1L)
+                ,new KeyValue<>("the", 1L)
+                ,new KeyValue<>("text", 1L)
+                ,new KeyValue<>("assigned", 1L)
+                ,new KeyValue<>("to", 1L)
+                ,new KeyValue<>("the", null)
+                ,new KeyValue<>("key01", 1L)
+                ,new KeyValue<>("and", 1L)
+                ,new KeyValue<>("this", null)
+                ,new KeyValue<>("is", null)
+                ,new KeyValue<>("the", 3L)
+                ,new KeyValue<>("one", 1L)
+                ,new KeyValue<>("assigned", null)
+                ,new KeyValue<>("to", null)
+                ,new KeyValue<>("the", null)
+                ,new KeyValue<>("key02", 1L)
+        );
 
+        testInputTopic.pipeKeyValueList(inputValues);
+
+        assertThat(testOddOutputTopic.readKeyValuesToList(), equalTo(expectedOddOutputValues));
+
+        //No more output in topic
+        assertTrue(testOddOutputTopic.isEmpty());
     }
 
     @Test
-    public void nonMaterializedResultIsOK() {
+    public void pairOutputStreamReceivesTheExpectedRecords() {
+        List<KeyValue<String, Long>> expectedPairOutputValues = Arrays.asList(
+                new KeyValue<>("this", null)
+                ,new KeyValue<>("is", null)
+                ,new KeyValue<>("the", null)
+                ,new KeyValue<>("text", null)
+                ,new KeyValue<>("assigned", null)
+                ,new KeyValue<>("to", null)
+                ,new KeyValue<>("the", 2L)
+                ,new KeyValue<>("key01", null)
+                ,new KeyValue<>("and", null)
+                ,new KeyValue<>("this", 2L)
+                ,new KeyValue<>("is", 2L)
+                ,new KeyValue<>("the", null)
+                ,new KeyValue<>("one", null)
+                ,new KeyValue<>("assigned", 2L)
+                ,new KeyValue<>("to", 2L)
+                ,new KeyValue<>("the", 4L)
+                ,new KeyValue<>("key02", null)
 
+        );
+
+        testInputTopic.pipeKeyValueList(inputValues);
+
+        assertThat(testPairOutputTopic.readKeyValuesToList(), equalTo(expectedPairOutputValues));
+
+        //No more output in topic
+        assertTrue(testPairOutputTopic.isEmpty());
     }
-
 
 }

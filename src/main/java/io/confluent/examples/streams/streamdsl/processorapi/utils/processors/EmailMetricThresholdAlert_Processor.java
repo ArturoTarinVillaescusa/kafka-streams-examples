@@ -68,13 +68,7 @@ public class EmailMetricThresholdAlert_Processor implements Processor<String, St
             allStateStoreValues.forEachRemaining(c -> {
                 log.info("SEND EMAIL WITH >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> {}", c.toString());
             });
-//            Stream.of(changedValue);
-            // TODO: NEED TO FORWARD JUST THE FILTERED AND CHANGED VALUES, BUT FORWARDS ALL THE SOURCE
-            //       BECAUSE THE SINK TOPOLOGY IS CONNECTING THE SOURCE TO THE SINK, BUT NOT THE PROCESS
-            //       ITSELF
-//            context.forward(key, changedValue/*, To.child("DESTINATION-STREAM")*/);
-            // TODO: NOTE: .process( is a terminal operation. If you want to forward the stream use
-            //      .transform( instead
+
             context.forward(key,changedValue);
         }
     }

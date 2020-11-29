@@ -7,10 +7,11 @@ import org.apache.kafka.common.utils.Bytes;
 import org.apache.kafka.streams.*;
 import org.apache.kafka.streams.errors.LogAndContinueExceptionHandler;
 import org.apache.kafka.streams.kstream.*;
-import org.apache.kafka.streams.state.KeyValueStore;
 import org.apache.kafka.streams.state.QueryableStoreTypes;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
+import org.apache.kafka.streams.state.WindowStore;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -20,7 +21,7 @@ import java.util.Properties;
  *
  **/
 @Slf4j
-public class O1_QueryLocalKeyValueStores {
+public class O2_QueryLocalWindowStores {
     static final String inputTopic = "input-topic";
     static final String outputTopic = "output-topic";
     static final String oddOutputTopic = "odd-output-topic";
@@ -95,43 +96,19 @@ public class O1_QueryLocalKeyValueStores {
         // Materialize the result of filtering corresponding to the count of different words by
         // creating a key-value State Store named "count-key-value-store" for the all-time words
         // count
-        KTable<String, Long> countByGroup = groupedByWord
+        KTable<Windowed<String>, Long> countByGroup = groupedByWord
+                .windowedBy(TimeWindows.of(Duration.ofMinutes(1)))
                 .count(Named.as("counting-words-occurrences"),
                         Materialized
-                        .<String, Long, KeyValueStore<Bytes, byte[]>>as(stateStoreName)
-                        .withValueSerde(Serdes.Long()));
+                                .<String, Long, WindowStore<Bytes, byte[]>>as(stateStoreName)
+                                .withValueSerde(Serdes.Long()));
 
         countByGroup.toStream().print(Printed.toFile("/tmp/countByGroup.txt"));
 
-        // materialize the result of filtering corresponding to odd numbers
-        // the "queryable-odd-counts" can be subsequently queried.
-        KTable<String, Long> oddCounts = countByGroup.filter((word, count) -> (count % 2 != 0),
-                Named.as("filtering-odd-counts"),
-                Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as(oddStateStoreName)
-        .withValueSerde(Serdes.Long()));
-
-        oddCounts.toStream().print(Printed.toFile("/tmp/oddCounts.txt"));
-
-        // materialize the result of filtering corresponding to odd numbers
-        // the "queryable-pair-counts" can be subsequently queried.
-        KTable<String, Long> pairCounts = countByGroup.filter((word, count) -> (count % 2 == 0),
-                Named.as("filtering-pair-counts"),
-                Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as(pairStateStoreName)
-        .withValueSerde(Serdes.Long()));
-
-        pairCounts.toStream().print(Printed.toFile("/tmp/pairCounts.txt"));
-
-        // Write the wordCounts to the output topic
-        countByGroup.toStream().to(outputTopic,
-                Produced.as("sink-to-otuput-topic").with(Serdes.String(), Serdes.Long()));
-
-        // Write the odd wordCounts to the output topic
-        oddCounts.toStream().to(oddOutputTopic,
-                Produced.as("sink-to-odd-otuput-topic").with(Serdes.String(), Serdes.Long()));
 
         // Write the pair wordCounts to the output topic
-        pairCounts.toStream().to(pairOutputTopic,
-                Produced.as("sink-to-pair-otuput-topic").with(Serdes.String(), Serdes.Long()));
+        countByGroup.toStream().to(outputTopic,
+                Produced.as("sink-to-otuput-topic"));
     }
 
     private static void queryTheStateStore(KafkaStreams streams, String stateStoreName) {
