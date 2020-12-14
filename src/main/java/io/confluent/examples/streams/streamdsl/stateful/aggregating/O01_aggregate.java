@@ -69,8 +69,7 @@ public class O01_aggregate {
     }
 
     public static void createStream(StreamsBuilder streamsBuilder) {
-        // Construct a KStream from the inputTopic where message values represent
-        // lines of text.
+        // Build a KStream from the inputTopic
         KStream<String, Integer> stream = streamsBuilder.stream(inputTopic,
                 Consumed.with(Serdes.String(), Serdes.Integer()));
         // Group the stream
@@ -78,9 +77,9 @@ public class O01_aggregate {
                 stream.groupByKey(Grouped.with(Serdes.String(), Serdes.Integer()));
         // Aggregate the groupedStream
         KTable<String, Long> aggregatedStream = groupedStream.aggregate(
-                () -> 0L,                                                     // Initializer
-                (aggKey, newValue, aggValue) -> aggValue + newValue, // Adder
-                Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("aggregated-stream-store")                    // State Store name
+                () -> 0L,                                                                                // Initializer
+                (aggKey, newValue, aggValue) -> aggValue + newValue,                                     // Adder
+                Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("aggregated-stream-store")   // State Store name
                 .withKeySerde(Serdes.String())
                 .withValueSerde(Serdes.Long())
         );
