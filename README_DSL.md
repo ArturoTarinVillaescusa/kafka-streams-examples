@@ -535,14 +535,15 @@ Detailed behavior of KGroupedTable:
   subtractor is called. Note that whenever the subtractor returns a null value itself, then the corresponding
   key is removed from the resulting KTable. If that happens, any next input record for that key will trigger
   the initializer again.
-  So, in contrast to KGroupedStream, over time the KGroupedTable initializer may be called more than once
-  for a key
+  So, in contrast to KGroupedStream, over time the KGroupedTable initializer may be called more than once for the same key
+
+
 
 * [stateful/aggregating/O01_aggregate.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O01_aggregate.java) 
 * [stateful/aggregating/O01_aggregateTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O01_aggregateTest.java) 
 
 * [stateful/aggregating/O03_aggregateTable.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O03_aggregateTable.java) 
-* [stateful/aggregating/O03_aggregateTable.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O03_aggregateTable.java) 
+* [stateful/aggregating/O03_aggregateTableTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O03_aggregateTableTest.java) 
 
 * [stateful/aggregating/O02_aggregateStreamTest.java](src/test/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O02_aggregateStreamTest.java) 
 * [stateful/aggregating/O02_aggregateStream.java](src/main/java/io/confluent/examples/streams/streamdsl/stateful/aggregating/O02_aggregateStream.java) 
