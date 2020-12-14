@@ -2,9 +2,14 @@ package io.confluent.examples.streams.streamdsl.stateful.aggregating;
 
 import io.confluent.common.utils.TestUtils;
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.streams.*;
+import org.apache.kafka.common.utils.Bytes;
+import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.errors.LogAndContinueExceptionHandler;
 import org.apache.kafka.streams.kstream.*;
+import org.apache.kafka.streams.state.KeyValueStore;
 
 import java.util.Properties;
 
@@ -66,36 +71,24 @@ public class O01_aggregate {
     public static void createStream(StreamsBuilder streamsBuilder) {
         // Construct a KStream from the inputTopic where message values represent
         // lines of text.
-        KStream<byte[], String> stream = streamsBuilder.stream(inputTopic,
-                Consumed.with(Serdes.ByteArray(), Serdes.String()));
+        KStream<String, Integer> stream = streamsBuilder.stream(inputTopic,
+                Consumed.with(Serdes.String(), Serdes.Integer()));
         // Group the stream
-        KGroupedStream<byte[], String> groupedStream =
-                stream.groupByKey(Grouped.with(Serdes.ByteArray(), Serdes.String()));
+        KGroupedStream<String, Integer> groupedStream =
+                stream.groupByKey(Grouped.with(Serdes.String(), Serdes.Integer()));
         // Aggregate the groupedStream
-        KTable<byte[], Long> aggregatedStream = groupedStream.aggregate(
+        KTable<String, Long> aggregatedStream = groupedStream.aggregate(
                 () -> 0L,                                                     // Initializer
-                (aggKey, newValue, aggValue) -> aggValue + newValue.length(), // Adder
-                Materialized.as("aggregated-stream-store")                    // State Store name
+                (aggKey, newValue, aggValue) -> aggValue + newValue, // Adder
+                Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("aggregated-stream-store")                    // State Store name
+                .withKeySerde(Serdes.String())
+                .withValueSerde(Serdes.Long())
         );
 
         aggregatedStream.toStream().print(Printed.toSysOut());
 
-        // Construct a KTable from the KStream
-        KTable<byte[], String> table = stream.toTable();
-        // Group the table
-        KGroupedTable<String, String> groupedTable = table.groupBy((k, v) -> KeyValue.pair(v, v));
-        // Aggregate the KTable
-        KTable<String, Long> aggregatedKTable = groupedTable.aggregate(
-                () -> 0L,                                                       // Initializer
-                (aggKey, newValue, aggValue) -> aggValue + newValue.length(),   // Adder
-                (aggKey, oldValue, aggValue) -> aggValue - oldValue.length(),   // Subtractor
-                Materialized.as("aggregated-table-store")                       // State Store name
-        );
-
         // Write the aggregatedStream to the output topic
         aggregatedStream.toStream().to(aggStreamOutputTopic);
-        // Write the aggregatedTable to the output topic
-        aggregatedKTable.toStream().to(aggTableOutputTopic);
 
     }
 

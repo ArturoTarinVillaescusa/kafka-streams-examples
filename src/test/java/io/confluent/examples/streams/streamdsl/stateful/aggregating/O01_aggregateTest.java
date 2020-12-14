@@ -1,9 +1,6 @@
 package io.confluent.examples.streams.streamdsl.stateful.aggregating;
 
-import org.apache.kafka.common.serialization.ByteArraySerializer;
-import org.apache.kafka.common.serialization.LongDeserializer;
-import org.apache.kafka.common.serialization.StringDeserializer;
-import org.apache.kafka.common.serialization.StringSerializer;
+import org.apache.kafka.common.serialization.*;
 import org.apache.kafka.streams.*;
 import org.junit.After;
 import org.junit.Before;
@@ -27,9 +24,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class O01_aggregateTest {
     private TopologyTestDriver testDriver;
-    private TestInputTopic<String, String> testInputTopic;
+    private TestInputTopic<String, Integer> testInputTopic;
     private TestOutputTopic<String, Long> testAggStreamOutputTopic;
+    private TestOutputTopic<String, Long> testAggTableOutputTopic;
     private StringSerializer stringSerializer = new StringSerializer();
+    private IntegerSerializer intSerializer = new IntegerSerializer();
     private ByteArraySerializer byteArraySerializer = new ByteArraySerializer();
     private StringDeserializer stringDeserializer = new StringDeserializer();
     private LongDeserializer longDeserializer = new LongDeserializer();
@@ -56,10 +55,14 @@ public class O01_aggregateTest {
 
         testInputTopic =
                 testDriver.createInputTopic(O01_aggregate.inputTopic,
-                                            stringSerializer, stringSerializer);
+                                            stringSerializer, intSerializer);
         testAggStreamOutputTopic =
                 testDriver.createOutputTopic(O01_aggregate.aggStreamOutputTopic,
                                              stringDeserializer,longDeserializer);
+        testAggTableOutputTopic =
+                testDriver.createOutputTopic(O01_aggregate.aggTableOutputTopic,
+                        stringDeserializer,longDeserializer);
+
     }
 
     @After
@@ -78,14 +81,19 @@ public class O01_aggregateTest {
      */
     @Test
     public void outputTopicMustContainInputTopicRecords() {
-        List<KeyValue<String, String>> inputValues =
+        List<KeyValue<String, Integer>> inputValues =
                 Arrays.asList(
-                        new KeyValue<>("key01","value01"),
-                        new KeyValue<>("key02","value02")
+                         new KeyValue<>("key01",1)
+                        ,new KeyValue<>("key02",23)
+                        ,new KeyValue<>("key01",123)
+                        ,new KeyValue<>("key02",4)
+                        ,new KeyValue<>("key05",11)
+                        ,new KeyValue<>("key02",56)
                 );
         Map<String, Long> outputValues = new HashMap<>();
-        outputValues.put("key01",7L);
-        outputValues.put("key02",7L);
+        outputValues.put("key01",124L);
+        outputValues.put("key02",83L);
+        outputValues.put("key05",11L);
 
         testInputTopic.pipeKeyValueList(inputValues,
                 Instant.ofEpochMilli(0), Duration.ofMillis(100));
